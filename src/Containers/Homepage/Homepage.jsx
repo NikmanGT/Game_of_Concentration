@@ -2,15 +2,27 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { motion } from "motion/react";
 import DarkModeBtn from "../../Components/DarkModebtn";
+import mario from "../../assets/mario.svg";
 
 const Homepage = () => {
   let navigate = useNavigate();
+
   const [PlayModal, setPlayModal] = useState(false);
   const [ProfileModal, setProfileModal] = useState(false);
   const [leaderboardModal, setLeaderboardModal] = useState(false);
 
-  // const userRef = useRef("");
-  // const difficultyRef = useRef(0);
+  const difficulty = useRef(null);
+  const [selected, setSelected] = useState(null);
+  const options = [
+    { label: "3x3", value: 3 },
+    { label: "4x4", value: 4 },
+    { label: "5x5", value: 5 },
+  ];
+  const difficultySelect = (option) => {
+    difficulty.current = option.value;
+    setSelected(option.label);
+    localStorage.setItem("difficulty", difficulty.current);
+  };
 
   const [loaded, setLoaded] = useState(false);
   useEffect(() => {
@@ -109,21 +121,19 @@ const Homepage = () => {
           onClick={() => setPlayModal(false)}
         >
           <div
-            className="relative w-3/4 lg:w-1/2 p-6 rounded-2xl border-2 
-        bg-white/20 dark:bg-black/10 
-        backdrop-blur-lg backdrop-saturate-200
-        shadow-[0_0_20px_rgba(255,0,255,0.6)]
-        border-transparent 
-        animate-slideDown
-        text-black dark:text-white
-        ring-2 ring-pink-500 ring-offset-2 ring-offset-white
-        dark:ring-cyan-400 dark:ring-offset-black"
+            className="relative w-8/9 lg:w-1/2 p-6 rounded-2xl border-2 
+            bg-white/20 dark:bg-black/10 
+      backdrop-blur-2xl backdrop-saturate-200
+      shadow-[0_0_30px_rgba(255,0,255,0.5)]
+      ring-2 ring-pink-500 ring-offset-2 ring-offset-white
+      dark:ring-cyan-400 dark:ring-offset-black
+      animate-slideDown transition-all duration-700 dark:text-white"
             onClick={(e) => e.stopPropagation()}
           >
             <div
               className="absolute top-3 right-3 text-white bg-gradient-to-br from-pink-500 via-purple-500
-               to-indigo-500  dark:from-cyan-400 dark:via-cyan-200 
-              dark:to-cyan-600 p-1 rounded-full shadow-[0_0_10px_#ff00ff] hover:scale-110 transition-all"
+         to-indigo-500  dark:from-cyan-400 dark:via-cyan-200 
+        dark:to-cyan-600 p-1 rounded-full shadow-[0_0_12px_#ff00ff] hover:scale-110 transition-all"
             >
               <button
                 onClick={() => setPlayModal(false)}
@@ -137,59 +147,100 @@ const Homepage = () => {
             <div className="flex flex-col h-full lg:gap-9 gap-4">
               <div className="text-container flex flex-col lg:gap-5 gap-3">
                 <p
-                  className="text-4xl lg:text-6xl md:text-5xl font-bold dark:text-white text-black
-                 text-center p-3"
+                  className="text-4xl lg:text-6xl md:text-5xl -z-8 font-bold text-transparent 
+                   bg-clip-text bg-gradient-to-r from-black via-gray-800 to-black 
+                  drop-shadow-[0_0_12px_#ff00ff] dark:from-cyan-300 dark:via-cyan-500 dark:to-cyan-300 
+                  dark:drop-shadow-[0_0_15px_#00ffff] text-center p-3"
                 >
                   «Rules»
                 </p>
 
-                <p className="lg:text-xl font-medium lg:font-normal">
-                  ♦️ Match all pairs of cards by flipping them two at a time.
-                </p>
-
-                <p className="lg:text-xl font-medium lg:font-normal">
-                  ♦️ Click any two cards to reveal their front. If both cards
-                  have the same symbol, they stay flipped. If they don’t match,
-                  they’ll flip back after a short delay.
-                </p>
-
-                <p className="lg:text-xl font-medium lg:font-normal">
-                  ♦️ Each successful match earns you 10 points. Match all card
-                  pairs to win the game. Try to do it in the fewest moves and
-                  shortest time possible! 😎
-                </p>
+                <div className="rule-container">
+                  {[
+                    "♦️ Match all pairs of cards by flipping them two at a time.",
+                    "♦️ Click any two cards to reveal their front. If both cards have the same symbol, they stay flipped. If they don’t match, they’ll flip back after a short delay.",
+                    "♦️ Each successful match earns you 10 points. Match all card pairs except 1 card to win the game. Try to do it in the fewest moves and shortest time possible! 😎",
+                  ].map((rule, index) => (
+                    <p
+                      key={index}
+                      className="lg:text-xl text-base font-medium px-2 leading-relaxed text-black dark:text-white 
+                      bg-clip-text bg-gradient-to-r from-slate-800 via-purple-800 to-slate-900 
+                    dark:from-cyan-300 dark:via-cyan-500 dark:to-cyan-300
+                       drop-shadow-[0_0_20px_#cb3d17] dark:drop-shadow-[10px_5px_12px_#00ffff] transition-all duration-500"
+                    >
+                      {rule}
+                    </p>
+                  ))}
+                </div>
               </div>
 
               <div className="mt-6 Username-container flex gap-4">
-                <p>Nickname:</p>
+                <p
+                  className="text-lg lg:text-xl font-extrabold tracking-wide bg-clip-text text-transparent 
+               bg-gradient-to-r  from-indigo-500 via-blue-400 to-teal-400 
+               dark:from-cyan-300 dark:via-cyan-500 dark:to-cyan-300
+               drop-shadow-[0_0_10px_rgb(70,70,255)] dark:drop-shadow-[0_0_15px_#00ffff]"
+                >
+                  NICKNAME:
+                </p>
                 <input
-                  type="name"
-                  // ref={userRef.current}
-                  className="border-2 border-b-amber-600 w-full"
+                  type="text"
+                  placeholder="Enter your name..."
+                  className="w-full border-b-2 border-amber-500 focus:outline-none dark:text-white
+                 dark:placeholder-gray-400 dark:focus:ring-cyan-400  transition-all duration-300"
                 ></input>
               </div>
 
               <div className="Difficulty-container flex flex-col items-center">
-                <p className="p-3 text-xl">Choose your Difficulty</p>
-                <div className="flex border-amber-300 rounded-full border-2 gap-8">
-                  <p className="p-5 lg:px-6 rounded-full hover:bg-fuchsia-400 cursor-pointer ">
-                    3x3
-                  </p>
-                  <p className="p-5 lg:px-6 rounded-full hover:bg-fuchsia-400 cursor-pointer">
-                    4x4
-                  </p>
-                  <p className="p-5 lg:px-6 rounded-full hover:bg-fuchsia-400 cursor-pointer">
-                    5x5
-                  </p>
+                <p
+                  className="p-3 text-xl font-extrabold tracking-wider 
+               bg-clip-text text-transparent 
+               bg-gradient-to-r from-indigo-500 via-blue-400 to-teal-400 
+               dark:from-cyan-300 dark:via-teal-400 dark:to-cyan-500 
+               drop-shadow-[0_0_10px_rgb(70,70,255)] 
+               dark:drop-shadow-[0_0_15px_#00ffff]"
+                >
+                  Choose your Difficulty
+                </p>
+                <div
+                  className="flex gap-8 border-2 border-amber-300 rounded-full p-1
+               bg-white/30 dark:bg-black/20 backdrop-blur-md backdrop-saturate-150"
+                >
+                  {options.map((option) => {
+                    return (
+                      <p
+                        className={`p-5 ${
+                          selected == option.label
+                            ? "bg-gradient-to-r from-indigo-400 via-blue-400 to-cyan-400 text-black dark:text-white shadow-lg"
+                            : "bg-transparent text-black dark:text-white hover:bg-blue-200/30 dark:hover:bg-cyan-400/30"
+                        }  
+                        md:px-10 rounded-full hover:bg-green-400 cursor-pointer`}
+                        key={option.value}
+                        onClick={() => {
+                          difficultySelect(option);
+                        }}
+                      >
+                        {option.label}
+                      </p>
+                    );
+                  })}
                 </div>
               </div>
 
               <div className="Game-start-btn-container flex justify-center">
                 <button
-                  className="cursor-pointer border-1 p-3 lg:px-7 lg:p-4 rounded-full"
+                  className="group cursor-pointer border-2 border-pink-400 dark:border-cyan-300 text-black
+                dark:text-white bg-white/20 dark:bg-black/20 hover:bg-pink-500 dark:hover:bg-cyan-500 
+                hover:text-white px-5 lg:px-8 py-3 lg:py-4 rounded-full text-xl font-bold 
+                  flex items-center gap-3 shadow-[0_0_10px_#ff00ff] dark:shadow-[0_0_10px_#00ffff] 
+                   transition-all duration-500 hover:scale-105"
                   onClick={Gamebtn}
                 >
-                  <p className="text-xl">Let's-a go!!</p>
+                  Let's-a go!!
+                  <img
+                    src={mario}
+                    className="size-8 group-hover:animate-bounce"
+                  ></img>
                 </button>
               </div>
             </div>
@@ -202,12 +253,12 @@ const Homepage = () => {
           loaded ? "opacity-100" : "opacity-0"
         } main-container w-full mt-10`}
       >
-        <div className="nav-container flex justify-center-safe sm:gap-0 gap-x-7 gap-y-3 flex-wrap ">
+        <div className="nav-container flex justify-center-safe sm:gap-0 gap-x-7 gap-y-3 flex-wrap">
           <div
             className="main-nav-container border-2 sm:w-1/2 md:w-1/3 lg:w-1/4 h-14 rounded-full flex justify-between overflow-hidden 
     bg-gradient-to-r from-green-200 via-blue-100 to-green-200 dark:from-[#253d75] dark:via-[#22457e] dark:to-[#0f172a]
     shadow-[0_5px_20px_rgba(79,70,229,1)] dark:shadow-[0_5px_20px_rgba(34,211,238,1)]
-    transition-all duration-700"
+    transition-all duration-700 p-1"
           >
             <div
               className="relative flex-1 group cursor-pointer"
