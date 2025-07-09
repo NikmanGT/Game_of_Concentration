@@ -11,6 +11,8 @@ const Homepage = () => {
   const [ProfileModal, setProfileModal] = useState(false);
   const [leaderboardModal, setLeaderboardModal] = useState(false);
 
+  const username = useRef(null);
+
   const difficulty = useRef(null);
   const [selected, setSelected] = useState(null);
   const options = [
@@ -19,9 +21,10 @@ const Homepage = () => {
     { label: "5x5", value: 5 },
   ];
   const difficultySelect = (option) => {
-    difficulty.current = option.value;
+    difficulty.current = option;
     setSelected(option.label);
-    localStorage.setItem("difficulty", difficulty.current);
+    localStorage.setItem("difficulty", JSON.stringify(difficulty.current));
+    console.log(difficulty.current.value);
   };
 
   const [loaded, setLoaded] = useState(false);
@@ -34,8 +37,9 @@ const Homepage = () => {
     };
   }, []);
 
-  const Gamebtn = () => {
+  const GameStartbtn = () => {
     navigate("/matchRoom");
+    localStorage.setItem("username", username.current.value);
   };
 
   return (
@@ -185,6 +189,7 @@ const Homepage = () => {
                 </p>
                 <input
                   type="text"
+                  ref={username}
                   placeholder="Enter your name..."
                   className="w-full border-b-2 border-amber-500 focus:outline-none dark:text-white
                  dark:placeholder-gray-400 dark:focus:ring-cyan-400  transition-all duration-300"
@@ -234,7 +239,7 @@ const Homepage = () => {
                 hover:text-white px-5 lg:px-8 py-3 lg:py-4 rounded-full text-xl font-bold 
                   flex items-center gap-3 shadow-[0_0_10px_#ff00ff] dark:shadow-[0_0_10px_#00ffff] 
                    transition-all duration-500 hover:scale-105"
-                  onClick={Gamebtn}
+                  onClick={GameStartbtn}
                 >
                   Let's-a go!!
                   <img

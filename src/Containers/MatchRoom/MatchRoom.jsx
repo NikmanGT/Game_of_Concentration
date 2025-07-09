@@ -83,7 +83,8 @@ const MatchRoom = () => {
   };
 
   let navigate = useNavigate();
-  const userName = localStorage.getItem("user");
+  const userName = localStorage.getItem("username");
+  const difficulty = JSON.parse(localStorage.getItem("difficulty"));
   return (
     <div
       className="absolute inset-0 -z-10 h-full w-full [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)] 
@@ -95,6 +96,7 @@ const MatchRoom = () => {
             <p>UserName: {userName}</p>
             <p>Moves: {moves}</p>
             <p>Score: {score}</p>
+            <p>Difficulty: {difficulty.label}</p>
           </div>
           <div className="dark-mode-button lg:text-center">
             <DarkModeBtn />
