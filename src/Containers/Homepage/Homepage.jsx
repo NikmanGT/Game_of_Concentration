@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import { motion } from "motion/react";
+import { ToastContainer, toast } from "react-toastify";
+import { Bounce } from "react-toastify";
 import DarkModeBtn from "../../Components/DarkModebtn";
 import mario from "../../assets/mario.svg";
 
@@ -24,7 +25,6 @@ const Homepage = () => {
     difficulty.current = option;
     setSelected(option.label);
     localStorage.setItem("difficulty", JSON.stringify(difficulty.current));
-    console.log(difficulty.current.value);
   };
 
   const [loaded, setLoaded] = useState(false);
@@ -38,8 +38,37 @@ const Homepage = () => {
   }, []);
 
   const GameStartbtn = () => {
-    navigate("/matchRoom");
+    const name = username.current.value?.trim();
+    if (!name) {
+      toast.error("Can't play without a nickname!", {
+        position: "top-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
+      return;
+    }
+    if (!difficulty.current) {
+      toast.error("Atleast set the difficulty first", {
+        position: "top-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
+      return;
+    }
     localStorage.setItem("username", username.current.value);
+    navigate("/matchRoom");
   };
 
   return (
@@ -47,6 +76,19 @@ const Homepage = () => {
       className="absolute inset-0 -z-10 h-full w-full [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)] 
     dark:[background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_70%)] overflow-hidden"
     >
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        transition={Bounce}
+      />
       {ProfileModal ? (
         <div
           className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm flex items-center justify-center"
@@ -125,7 +167,7 @@ const Homepage = () => {
           onClick={() => setPlayModal(false)}
         >
           <div
-            className="relative w-8/9 lg:w-1/2 p-6 rounded-2xl border-2 
+            className="relative max-w-[95vw] lg:max-w-[600px] p-6 rounded-2xl border-2 
             bg-white/20 dark:bg-black/10 
       backdrop-blur-2xl backdrop-saturate-200
       shadow-[0_0_30px_rgba(255,0,255,0.5)]
