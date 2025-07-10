@@ -121,7 +121,7 @@ const Homepage = () => {
 
       {PlayModal ? (
         <div
-          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm flex items-center justify-center"
+          className="fixed inset-0 z-40 max-h-full bg-black/40 backdrop-blur-sm flex items-center justify-center"
           onClick={() => setPlayModal(false)}
         >
           <div
@@ -163,7 +163,7 @@ const Homepage = () => {
                   {[
                     "♦️ Match all pairs of cards by flipping them two at a time.",
                     "♦️ Click any two cards to reveal their front. If both cards have the same symbol, they stay flipped. If they don’t match, they’ll flip back after a short delay.",
-                    "♦️ Each successful match earns you 10 points. Match all card pairs except 1 card to win the game. Try to do it in the fewest moves and shortest time possible! 😎",
+                    "♦️ Each successful match earns you 10 points. Match all card pairs except a Joker to win the game. Try to do it in the fewest moves and shortest time possible! 😎",
                   ].map((rule, index) => (
                     <p
                       key={index}
