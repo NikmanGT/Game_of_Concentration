@@ -122,7 +122,20 @@ const MatchRoom = () => {
       value: val === "dummy" ? "dummy" : `Card ${val}`,
     }));
   };
-  const [cards] = useState(generateCards);
+  const [cards, setCards] = useState(generateCards);
+
+  const resetGame = () => {
+    setTime(0);
+    setMoves(0);
+    setScore(0);
+    setFlippedCards([]);
+    setMatchedCards([]);
+    setExitGameModal(false);
+    setCards(generateCards());
+    intervalRef.current = setInterval(() => {
+      setTime((time) => time + 1);
+    }, 1000);
+  };
 
   const handleFlip = (card) => {
     if (
@@ -226,7 +239,7 @@ const MatchRoom = () => {
                dark:bg-gradient-to-br dark:from-red-500 dark:to-green-300
             dark:hover:from-teal-400 dark:hover:to-cyan-300
               dark:shadow-[0_0_10px_#00ffff] shadow-[0_0_20px_#99004C]"
-              onClick={() => window.location.reload()}
+              onClick={() => resetGame()}
             >
               Refresh Game
             </button>
@@ -254,7 +267,7 @@ const MatchRoom = () => {
                dark:bg-gradient-to-br dark:from-red-500 dark:to-green-300
             dark:hover:from-teal-400 dark:hover:to-cyan-300
               dark:shadow-[0_0_10px_#00ffff] shadow-[0_0_20px_#99004C]"
-                onClick={() => window.location.reload()}
+                onClick={() => resetGame()}
               >
                 Refresh Game
               </button>
