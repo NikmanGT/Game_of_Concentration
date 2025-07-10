@@ -1,12 +1,53 @@
-# React + Vite
+# 🎴 Concentration – Memory Match Game
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to the **Game of Concentration** – a fast, brain-teasing memory game where you flip cards to find matching pairs. Featuring multiple difficulty levels, a dark mode, timer, score tracker, and a sleek modern design.
 
-Currently, two official plugins are available:
+🔗 **Play Now**: [Click here to start the game](https://game-of-concentration-nikunj.vercel.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🧠 Game Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- ✅ Flip cards to match identical pairs
+- 🎯 Three difficulty levels: 3×3, 4×4, 5×5 grids
+- 🕶️ Dark mode support for comfortable night play
+- ⏱️ Timer and score system to track your performance
+- 🔀 Random selection of cards each session from a pool of 12
+- 💻 Fully responsive – works on mobile, tablet, and desktop
+
+---
+
+## 🎮 How to Play
+
+1. **Choose your difficulty** (Easy: 3x3, Medium: 4x4, Hard: 5x5).
+2. Flip two cards at a time and try to find all matching pairs.
+3. Each correct pair gives you points. Mismatches flip back.
+4. Complete the game as fast as you can for the best score.
+
+---
+
+## 🖼️ Game Preview
+
+![Game Screenshot](./screenshots/demo.png)
+
+> Enjoy the game in light or dark mode, with smooth animations and responsive layout.
+
+---
+
+## 👨‍💻 Built With
+
+- React.js
+- Tailwind CSS
+- Vercel (for deployment)
+
+---
+
+## 📜 License
+
+This game is open for everyone to **play and enjoy**. Please do not reuse the code without permission.
+
+---
+
+## 🙌 Created with 💓 and 300mg of Caffeine
+
+**Nikunj Sharma.** (aka NikmanGT)
