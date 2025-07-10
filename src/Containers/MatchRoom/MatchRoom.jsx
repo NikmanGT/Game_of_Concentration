@@ -165,29 +165,54 @@ const MatchRoom = () => {
           onClick={() => setExitGameModal(false)}
         >
           <div
-            className="main-container border-amber-200 border-2 animate-slideDown"
+            className="main-container relative border-amber-200 border-2 animate-slideDown max-w-[95vw]
+             flex flex-col gap-10 p-6 rounded-2xl bg-white/20 dark:bg-black/10 
+             backdrop-blur-2xl backdrop-saturate-200 shadow-[0_0_30px_rgba(255,0,255,0.5)]
+              ring-2 ring-pink-500 ring-offset-2 ring-offset-white
+            dark:ring-cyan-400 dark:ring-offset-black
+              animate-slideDown transition-all duration-700 dark:text-white"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="text-container"></div>
-            <div className="btn-container">
-              <button onClick={() => setExitGameModal(!exitGameModal)}>
+            <div className="text-container">
+              <p
+                className="dark:text-fuchsia-400 text-4xl font-bold text-shadow-amber-400 text-shadow-lg/40
+               dark:text-shadow-cyan-300 "
+              >
+                Are you sure you want to exit the Game ?
+              </p>
+            </div>
+            <div className="btn-container flex justify-around">
+              <button
+                className="text-4xl hover:scale-110 cursor-pointer transition-transform duration-300 ease-in-out"
+                onClick={() => setExitGameModal(!exitGameModal)}
+              >
                 ❌
               </button>
-              <button onClick={() => navigate("/")}>✅</button>
+              <button
+                className="text-4xl hover:scale-110 cursor-pointer transition-transform duration-300 ease-in-out"
+                onClick={() => navigate("/")}
+              >
+                ✅
+              </button>
             </div>
           </div>
         </div>
       ) : null}
       <div className="main-matchroom-container flex lg:flex-row flex-col h-full">
         <div
-          className="stats-container lg:w-1/4 flex lg:flex-col justify-between p-3 lg:border-r-3
+          className="stats-container lg:w-1/4 flex lg:flex-col justify-between p-3 lg:px-1 lg:border-r-3
         lg:dark:border-cyan-400 lg:dark:shadow-slate-600 shadow-lg shadow-slate-7000 backdrop-blur-md rounded-lg"
         >
-          <div className="text-container p-3 md:pl-8 space-y-2 text-black dark:text-amber-300 font-semibold">
-            <p className="text-xl lg:text-2xl break-words">👤 {userName}</p>
-            <p className="text-xl lg:text-2xl">🎯 Moves: {moves}</p>
-            <p className="text-xl lg:text-2xl">🏆 Score: {score}</p>
-            <p className="text-xl lg:text-2xl">
+          <div
+            className="text-container p-3 lg:px-2 md:p-2 md:pl-8 space-y-2 text-black dark:text-amber-300 
+          font-semibold"
+          >
+            <p className="text-xl md:text-lg lg:text-2xl break-words">
+              👤 {userName}
+            </p>
+            <p className="text-xl md:text-lg lg:text-2xl">🎯 Moves: {moves}</p>
+            <p className="text-xl md:text-lg lg:text-2xl">🏆 Score: {score}</p>
+            <p className="text-xl md:text-lg lg:text-2xl">
               📏 Difficulty: {difficulty.label}
             </p>
           </div>
@@ -211,7 +236,7 @@ const MatchRoom = () => {
         <div className="Playing-Area w-full flex flex-col">
           <div
             className="Upper-container border-b-3 dark:border-cyan-400 dark:shadow-amber-300 shadow-lg shadow-slate-700
-           mb-5 z-10 w-full flex justify-between items-center flex-wrap gap-3 p-4"
+           z-10 w-full flex justify-between items-center flex-wrap gap-3 p-4"
           >
             <div
               className="bg-amber-200 text-black rounded-full px-4 py-2 flex items-center gap-2 
@@ -274,8 +299,8 @@ const MatchRoom = () => {
                       gridSize === 3
                         ? "max-w-[130px] sm:max-w-[115px] md:max-w-[120px] lg:max-w-[140px]"
                         : gridSize === 4
-                        ? "max-w-[100px] sm:max-w-[95px] md:max-w-[100px] lg:max-w-[115px]"
-                        : "max-w-[85px] sm:max-w-[80px] md:max-w-[85px] lg:max-w-[95px]"
+                        ? "max-w-[100px] sm:max-w-[95px] md:max-w-[85px] lg:max-w-[135px]"
+                        : "max-w-[10vh] sm:max-w-[10vh] md:max-w-[10vh] lg:max-w-[15vh]"
                     }`}
                   onClick={() => handleFlip(card)}
                 >

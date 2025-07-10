@@ -384,7 +384,7 @@ const Homepage = () => {
               onClick={() => {
                 setPlayModal(!PlayModal);
               }}
-              className="mt-5 p-3 lg:pb-4 lg:pr-6 rounded-full lg:w-1/5 md:w-1/4 w-1/3 cursor-grab 
+              className="mt-5 p-3 lg:pb-4 lg:pr-6 rounded-full lg:w-1/5 md:w-1/4 w-1/3 cursor-pointer 
               border border-purple-500 
                 bg-gradient-to-r from-cyan-400 via-indigo-500 to-purple-600
                text-pink-300 dark:text-cyan-300 
