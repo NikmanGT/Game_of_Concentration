@@ -6,6 +6,15 @@ import DarkModeBtn from "../../Components/DarkModebtn";
 import mario from "../../assets/mario.svg";
 
 const Homepage = () => {
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
   let navigate = useNavigate();
 
   const [PlayModal, setPlayModal] = useState(false);

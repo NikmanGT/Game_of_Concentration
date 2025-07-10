@@ -8,6 +8,7 @@ const DarkModeBtn = () => {
   const darkMode = () => {
     setDark(!dark);
     document.documentElement.classList.toggle("dark");
+    localStorage.setItem("theme", dark);
   };
 
   return (

@@ -18,6 +18,15 @@ import Card11 from "../../assets/Heart_Queen.svg";
 import Card12 from "../../assets/Heart_King.svg";
 
 const MatchRoom = () => {
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
   const userName = localStorage.getItem("username");
 
   const difficulty = JSON.parse(localStorage.getItem("difficulty"));
@@ -25,6 +34,8 @@ const MatchRoom = () => {
   const totalSlots = gridSize * gridSize;
 
   let navigate = useNavigate();
+
+  const [exitGameModal, setExitGameModal] = useState(false);
 
   const [time, setTime] = useState(0);
 
@@ -143,26 +154,53 @@ const MatchRoom = () => {
 
   return (
     <div
-      className="absolute inset-0 -z-10 h-full w-full [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)] 
-      dark:[background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_70%)] overflow-hidden"
+      className="absolute inset-0 -z-10 min-h-screen w-full 
+      bg-gradient-to-b from-white via-purple-100 to-indigo-200 
+      dark:bg-gradient-to-b dark:from-[#0d0d1e] dark:via-[#131325] dark:to-[#1a1a2e] 
+      overflow-hidden transition-all duration-500"
     >
+      {exitGameModal ? (
+        <div
+          className="fixed inset-0 z-40 max-h-full bg-black/40 backdrop-blur-sm flex items-center justify-center"
+          onClick={() => setExitGameModal(false)}
+        >
+          <div
+            className="main-container border-amber-200 border-2 animate-slideDown"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="text-container"></div>
+            <div className="btn-container">
+              <button onClick={() => setExitGameModal(!exitGameModal)}>
+                ❌
+              </button>
+              <button onClick={() => navigate("/")}>✅</button>
+            </div>
+          </div>
+        </div>
+      ) : null}
       <div className="main-matchroom-container flex lg:flex-row flex-col h-full">
-        <div className="stats-container lg:w-1/4 flex flex-row lg:flex-col justify-between p-4">
-          <div className="text-container p-3 space-y-1 text-black dark:text-amber-300">
-            <p className="text-xl lg:text-2xl break-words">
-              UserName: {userName}
-            </p>
-            <p className="text-xl lg:text-2xl">Moves: {moves}</p>
-            <p className="text-xl lg:text-2xl">Score: {score}</p>
+        <div
+          className="stats-container lg:w-1/4 flex lg:flex-col justify-between p-3 lg:border-r-3
+        lg:dark:border-cyan-400 lg:dark:shadow-slate-600 shadow-lg shadow-slate-7000 backdrop-blur-md rounded-lg"
+        >
+          <div className="text-container p-3 md:pl-8 space-y-2 text-black dark:text-amber-300 font-semibold">
+            <p className="text-xl lg:text-2xl break-words">👤 {userName}</p>
+            <p className="text-xl lg:text-2xl">🎯 Moves: {moves}</p>
+            <p className="text-xl lg:text-2xl">🏆 Score: {score}</p>
             <p className="text-xl lg:text-2xl">
-              Difficulty: {difficulty.label}
+              📏 Difficulty: {difficulty.label}
             </p>
           </div>
 
-          <div className="game-btns">
+          <div className="game-btns flex-col justify-items-center">
             <DarkModeBtn />
             <button
-              className="mt-4 px-4 py-2 bg-amber-300 text-black rounded shadow cursor-pointer lg:hidden"
+              className="lg:hidden mt-4 px-4 py-3 font-semibold rounded-full cursor-pointer transition-all duration-300
+              text-white bg-gradient-to-br from-fuchsia-700 to-violet-800
+              hover:from-purple-500 hover:to-pink-600 hover:shadow-[0_0_20px_#ff00ff]
+               dark:bg-gradient-to-br dark:from-red-500 dark:to-green-300
+            dark:hover:from-teal-400 dark:hover:to-cyan-300
+              dark:shadow-[0_0_10px_#00ffff] shadow-[0_0_20px_#99004C]"
               onClick={() => window.location.reload()}
             >
               Refresh Game
@@ -171,15 +209,26 @@ const MatchRoom = () => {
         </div>
 
         <div className="Playing-Area w-full flex flex-col">
-          <div className="Upper-container w-full flex justify-between items-center flex-wrap gap-3 p-4">
-            <div className="bg-amber-200 text-black rounded-full px-4 py-2 flex items-center gap-2">
+          <div
+            className="Upper-container border-b-3 dark:border-cyan-400 dark:shadow-amber-300 shadow-lg shadow-slate-700
+           mb-5 z-10 w-full flex justify-between items-center flex-wrap gap-3 p-4"
+          >
+            <div
+              className="bg-amber-200 text-black rounded-full px-4 py-2 flex items-center gap-2 
+            shadow-[0_0_30px_#A2E4AB] dark:shadow-[0_0_15px_#22d3ee] "
+            >
               <BsStopwatch className="text-xl" />
-              <p className="text-lg">Timer: {time}</p>
+              <p className="text-lg font-semibold">Timer: {time}</p>
             </div>
 
             <div className="hidden lg:block">
               <button
-                className="px-4 py-2 bg-amber-300 text-black rounded shadow cursor-pointer"
+                className="px-4 py-3 font-semibold rounded-full cursor-pointer transition-all duration-300
+              text-white bg-gradient-to-br from-fuchsia-700 to-violet-800
+              hover:from-purple-500 hover:to-pink-600 hover:shadow-[0_0_20px_#ff00ff]
+               dark:bg-gradient-to-br dark:from-red-500 dark:to-green-300
+            dark:hover:from-teal-400 dark:hover:to-cyan-300
+              dark:shadow-[0_0_10px_#00ffff] shadow-[0_0_20px_#99004C]"
                 onClick={() => window.location.reload()}
               >
                 Refresh Game
@@ -188,8 +237,14 @@ const MatchRoom = () => {
 
             <div>
               <button
-                className="px-4 py-2 border text-white cursor-pointer"
-                onClick={() => navigate("/")}
+                className="px-5 py-3  font-bold rounded-full shadow-lg transition-all duration-300 cursor-pointer
+                bg-gradient-to-r from-yellow-950 to-amber-600 text-white border-none
+              hover:from-indigo-800 hover:to-green-700 hover:shadow-[0_0_20px_#6c00ff]
+                dark:from-cyan-500 dark:to-teal-600
+                  dark:hover:from-teal-400 dark:hover:to-cyan-600
+                dark:shadow-[0_0_20px_#00ffff]
+                 ring-2 ring-white dark:ring-cyan-400 dark:ring-offset-black"
+                onClick={() => setExitGameModal(!exitGameModal)}
               >
                 End Game
               </button>
@@ -200,10 +255,10 @@ const MatchRoom = () => {
             className={`Card-area grid ${gridCol} gap-2 sm:gap-3 md:gap-4 p-3 justify-items-center
             ${
               gridSize === 3
-                ? "h-[450px]"
+                ? "h-[70vh]"
                 : gridSize === 4
-                ? "h-[500px]"
-                : "grow"
+                ? "h-[70vh]"
+                : "max-h-[90vh]"
             }`}
           >
             {cards.map((card) => {
@@ -214,8 +269,14 @@ const MatchRoom = () => {
               return (
                 <div
                   key={card.id}
-                  className="aspect-square w-full max-w-[120px] sm:max-w-[95px] md:max-w-[110px] lg:max-w-[140px] 
-                  xl:max-w-[150px] rounded flex justify-center items-center"
+                  className={`aspect-square w-full rounded-2xl flex justify-center items-center cursor-pointer transition-transform duration-300 hover:scale-105
+                    ${
+                      gridSize === 3
+                        ? "max-w-[130px] sm:max-w-[115px] md:max-w-[120px] lg:max-w-[140px]"
+                        : gridSize === 4
+                        ? "max-w-[100px] sm:max-w-[95px] md:max-w-[100px] lg:max-w-[115px]"
+                        : "max-w-[85px] sm:max-w-[80px] md:max-w-[85px] lg:max-w-[95px]"
+                    }`}
                   onClick={() => handleFlip(card)}
                 >
                   <img
