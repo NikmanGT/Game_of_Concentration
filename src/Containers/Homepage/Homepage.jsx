@@ -6,6 +6,10 @@ import DarkModeBtn from "../../Components/DarkModebtn";
 import mario from "../../assets/mario.svg";
 
 const Homepage = () => {
+  if (!localStorage.getItem("theme")) {
+    localStorage.setItem("theme", "dark");
+    document.documentElement.classList.add("dark");
+  }
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
     if (storedTheme === "dark" || !storedTheme) {

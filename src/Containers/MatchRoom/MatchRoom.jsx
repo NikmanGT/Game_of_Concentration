@@ -18,6 +18,10 @@ import Card11 from "../../assets/Heart_Queen.svg";
 import Card12 from "../../assets/Heart_King.svg";
 
 const MatchRoom = () => {
+  if (!localStorage.getItem("theme")) {
+    localStorage.setItem("theme", "dark");
+    document.documentElement.classList.add("dark");
+  }
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
     if (storedTheme === "dark" || !storedTheme) {
