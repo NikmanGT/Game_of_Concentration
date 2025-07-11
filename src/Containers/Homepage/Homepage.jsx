@@ -139,7 +139,6 @@ const Homepage = () => {
           </div>
         </div>
       ) : null}
-
       {leaderboardModal ? (
         <div
           className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm flex items-center justify-center"
@@ -173,7 +172,6 @@ const Homepage = () => {
           </div>
         </div>
       ) : null}
-
       {PlayModal ? (
         <div
           className="fixed inset-0 z-40 max-h-full bg-black/40 backdrop-blur-sm flex items-center justify-center"
@@ -307,7 +305,6 @@ const Homepage = () => {
           </div>
         </div>
       ) : null}
-
       <div
         className={`transition-opacity duration-1000 ${
           loaded ? "opacity-100" : "opacity-0"

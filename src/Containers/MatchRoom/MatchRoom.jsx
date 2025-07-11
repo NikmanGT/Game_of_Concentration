@@ -16,6 +16,8 @@ import Card9 from "../../assets/Heart_09.svg";
 import Card10 from "../../assets/Heart_10.svg";
 import Card11 from "../../assets/Heart_Queen.svg";
 import Card12 from "../../assets/Heart_King.svg";
+import { Player } from "@lottiefiles/react-lottie-player";
+import Loader from "../../assets/Playing cards spinning loader.json";
 
 const MatchRoom = () => {
   if (!localStorage.getItem("theme")) {
@@ -29,6 +31,9 @@ const MatchRoom = () => {
     } else {
       document.documentElement.classList.remove("dark");
     }
+    setTimeout(() => {
+      setLoading(!loading);
+    }, 2700);
   }, []);
 
   const userName = localStorage.getItem("username");
@@ -38,6 +43,8 @@ const MatchRoom = () => {
   const totalSlots = gridSize * gridSize;
 
   let navigate = useNavigate();
+
+  const [loading, setLoading] = useState(true);
 
   const [exitGameModal, setExitGameModal] = useState(false);
 
@@ -177,124 +184,135 @@ const MatchRoom = () => {
       dark:bg-gradient-to-b dark:from-[#0d0d1e] dark:via-[#131325] dark:to-[#1a1a2e] 
       overflow-hidden transition-all duration-500"
     >
-      {exitGameModal ? (
-        <div
-          className="fixed inset-0 z-40 max-h-full bg-black/40 backdrop-blur-sm flex items-center justify-center"
-          onClick={() => setExitGameModal(false)}
-        >
-          <div
-            className="main-container relative border-amber-200 border-2 animate-slideDown max-w-[95vw]
+      {loading ? (
+        <div className="dwdw mx-auto relative top-[30vh]">
+          <Player className="size-56" autoplay loop src={Loader}></Player>
+          <div className="text-container text-2xl md:text-3xl lg:text-4xl dark:text-white text-center mt-10">
+            Good Luck Player....
+          </div>
+        </div>
+      ) : (
+        <>
+          {exitGameModal ? (
+            <div
+              className="fixed inset-0 z-40 max-h-full bg-black/40 backdrop-blur-sm flex items-center justify-center"
+              onClick={() => setExitGameModal(false)}
+            >
+              <div
+                className="main-container relative border-amber-200 border-2 animate-slideDown max-w-[95vw]
              flex flex-col gap-10 p-6 rounded-2xl bg-white/20 dark:bg-black/10 
              backdrop-blur-2xl backdrop-saturate-200 shadow-[0_0_30px_rgba(255,0,255,0.5)]
               ring-2 ring-pink-500 ring-offset-2 ring-offset-white
             dark:ring-cyan-400 dark:ring-offset-black
               animate-slideDown transition-all duration-700 dark:text-white"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="text-container">
-              <p
-                className="text-center dark:text-fuchsia-400 text-4xl font-bold text-shadow-amber-400 text-shadow-lg/40
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="text-container">
+                  <p
+                    className="text-center dark:text-fuchsia-400 text-4xl font-bold text-shadow-amber-400 text-shadow-lg/40
                dark:text-shadow-cyan-300 "
-              >
-                Are you sure you want to exit the Game ?
-              </p>
+                  >
+                    Are you sure you want to exit the Game ?
+                  </p>
+                </div>
+                <div className="btn-container flex justify-around">
+                  <button
+                    className="text-4xl hover:scale-110 cursor-pointer transition-transform duration-300 ease-in-out"
+                    onClick={() => setExitGameModal(!exitGameModal)}
+                  >
+                    ❌
+                  </button>
+                  <button
+                    className="text-4xl hover:scale-110 cursor-pointer transition-transform duration-300 ease-in-out"
+                    onClick={() => navigate("/")}
+                  >
+                    ✅
+                  </button>
+                </div>
+              </div>
             </div>
-            <div className="btn-container flex justify-around">
-              <button
-                className="text-4xl hover:scale-110 cursor-pointer transition-transform duration-300 ease-in-out"
-                onClick={() => setExitGameModal(!exitGameModal)}
-              >
-                ❌
-              </button>
-              <button
-                className="text-4xl hover:scale-110 cursor-pointer transition-transform duration-300 ease-in-out"
-                onClick={() => navigate("/")}
-              >
-                ✅
-              </button>
-            </div>
-          </div>
-        </div>
-      ) : null}
-      <div className="main-matchroom-container flex lg:flex-row flex-col h-full">
-        <div
-          className="stats-container lg:w-1/4 flex lg:flex-col justify-between p-3 lg:px-1 lg:border-r-3
+          ) : null}
+          <div className="main-matchroom-container flex lg:flex-row flex-col h-full">
+            <div
+              className="stats-container lg:w-1/4 flex lg:flex-col justify-between p-3 lg:px-1 lg:border-r-3
         lg:dark:border-cyan-400 lg:dark:shadow-slate-600 shadow-lg shadow-slate-7000 backdrop-blur-md rounded-lg"
-        >
-          <div
-            className="text-container p-3 lg:px-2 md:p-2 md:pl-8 space-y-2 text-black dark:text-amber-300 
+            >
+              <div
+                className="text-container p-3 lg:px-2 md:p-2 md:pl-8 space-y-2 text-black dark:text-amber-300 
           font-semibold"
-          >
-            <p className="text-xl lg:text-2xl break-words">👤 {userName}</p>
-            <p className="text-xl lg:text-2xl">🎯 Moves: {moves}</p>
-            <p className="text-xl lg:text-2xl">🏆 Score: {score}</p>
-            <p className="text-xl lg:text-2xl">
-              📏 Difficulty: {difficulty.label}
-            </p>
-          </div>
+              >
+                <p className="text-xl lg:text-2xl break-words">👤 {userName}</p>
+                <p className="text-xl lg:text-2xl">🎯 Moves: {moves}</p>
+                <p className="text-xl lg:text-2xl">🏆 Score: {score}</p>
+                <p className="text-xl lg:text-2xl">
+                  📏 Difficulty: {difficulty.label}
+                </p>
+              </div>
 
-          <div className="game-btns flex-col justify-items-center">
-            <DarkModeBtn />
-            <button
-              className="lg:hidden mt-4 px-4 py-3 font-semibold rounded-full cursor-pointer transition-all duration-300
+              <div className="game-btns flex-col justify-items-center">
+                <DarkModeBtn />
+                <button
+                  className="lg:hidden mt-4 px-4 py-3 font-semibold rounded-full cursor-pointer transition-all duration-300
               text-white bg-gradient-to-br from-fuchsia-700 to-violet-800
               hover:from-purple-500 hover:to-pink-600 hover:shadow-[0_0_20px_#ff00ff]
                dark:bg-gradient-to-br dark:from-red-500 dark:to-green-300
             dark:hover:from-teal-400 dark:hover:to-cyan-300
               dark:shadow-[0_0_10px_#00ffff] shadow-[0_0_20px_#99004C]"
-              onClick={() => resetGame()}
-            >
-              Refresh Game
-            </button>
-          </div>
-        </div>
+                  onClick={() => resetGame()}
+                >
+                  Refresh Game
+                </button>
+              </div>
+            </div>
 
-        <div className="Playing-Area w-full flex flex-col overflow-hidden">
-          <div
-            className="Upper-container border-b-3 dark:border-cyan-400 dark:shadow-amber-300 shadow-lg shadow-slate-700
+            <div className="Playing-Area w-full flex flex-col overflow-hidden">
+              <div
+                className="Upper-container border-b-3 dark:border-cyan-400 dark:shadow-amber-300 shadow-lg shadow-slate-700
            z-10 w-full flex justify-between items-center flex-wrap gap-3 p-4"
-          >
-            <div
-              className="bg-amber-200 lg:min-w-[15vw] text-black rounded-full px-5 py-2
+              >
+                <div
+                  className="bg-amber-200 lg:min-w-[15vw] text-black rounded-full px-5 py-2
                flex gap-2 justify-center items-center
             shadow-[0_0_30px_#A2E4AB] dark:shadow-[0_0_15px_#22d3ee] "
-            >
-              <BsStopwatch className="text-3xl" />
-              <p className="text-lg font-semibold text-center">Timer: {time}</p>
-            </div>
+                >
+                  <BsStopwatch className="text-3xl" />
+                  <p className="text-lg font-semibold text-center">
+                    Timer: {time}
+                  </p>
+                </div>
 
-            <div className="hidden lg:block">
-              <button
-                className="px-4 py-3 font-semibold rounded-full cursor-pointer transition-all duration-300
+                <div className="hidden lg:block">
+                  <button
+                    className="px-4 py-3 font-semibold rounded-full cursor-pointer transition-all duration-300
               text-white bg-gradient-to-br from-fuchsia-700 to-violet-800
               hover:from-purple-500 hover:to-pink-600 hover:shadow-[0_0_20px_#ff00ff]
                dark:bg-gradient-to-br dark:from-red-500 dark:to-green-300
             dark:hover:from-teal-400 dark:hover:to-cyan-300
               dark:shadow-[0_0_10px_#00ffff] shadow-[0_0_20px_#99004C]"
-                onClick={() => resetGame()}
-              >
-                Refresh Game
-              </button>
-            </div>
+                    onClick={() => resetGame()}
+                  >
+                    Refresh Game
+                  </button>
+                </div>
 
-            <div>
-              <button
-                className="px-5 py-3  font-bold rounded-full shadow-lg transition-all duration-300 cursor-pointer
+                <div>
+                  <button
+                    className="px-5 py-3  font-bold rounded-full shadow-lg transition-all duration-300 cursor-pointer
                 bg-gradient-to-r from-yellow-950 to-amber-600 text-white border-none
               hover:from-indigo-800 hover:to-green-700 hover:shadow-[0_0_20px_#6c00ff]
                 dark:from-cyan-500 dark:to-teal-600
                   dark:hover:from-teal-400 dark:hover:to-cyan-600
                 dark:shadow-[0_0_20px_#00ffff]
                  ring-2 ring-white dark:ring-cyan-400 dark:ring-offset-black"
-                onClick={() => setExitGameModal(!exitGameModal)}
-              >
-                End Game
-              </button>
-            </div>
-          </div>
+                    onClick={() => setExitGameModal(!exitGameModal)}
+                  >
+                    End Game
+                  </button>
+                </div>
+              </div>
 
-          <div
-            className={`Card-area grid ${gridCol} gap-2 sm:gap-3 md:gap-4 p-3 justify-items-center my-auto
+              <div
+                className={`Card-area grid ${gridCol} gap-2 sm:gap-3 md:gap-4 p-3 justify-items-center my-auto
             ${
               gridSize === 3
                 ? "h-[70vh] lg:-h[80vh]"
@@ -302,16 +320,16 @@ const MatchRoom = () => {
                 ? "h-[70vh] md:h-[65vh] lg:h-[80vh]"
                 : "h-[60vh] lg:h-[85vh]"
             }`}
-          >
-            {cards.map((card) => {
-              const isFlipped =
-                flippedCards.includes(card.id) ||
-                matchedCards.includes(card.id);
+              >
+                {cards.map((card) => {
+                  const isFlipped =
+                    flippedCards.includes(card.id) ||
+                    matchedCards.includes(card.id);
 
-              return (
-                <div
-                  key={card.id}
-                  className={`aspect-square w-full rounded-2xl flex justify-center items-center cursor-pointer transition-transform duration-300 hover:scale-105
+                  return (
+                    <div
+                      key={card.id}
+                      className={`aspect-square w-full rounded-2xl flex justify-center items-center cursor-pointer transition-transform duration-300 hover:scale-105
                     ${
                       gridSize === 3
                         ? "max-w-[130px] sm:max-w-[115px] md:max-w-[120px] lg:max-w-[140px]"
@@ -319,25 +337,27 @@ const MatchRoom = () => {
                         ? "max-w-[100px] sm:max-w-[95px] md:max-w-[85px] lg:max-w-[135px]"
                         : "max-w-[10vh] sm:max-w-[10vh] md:max-w-[10vh] lg:max-w-[15vh]"
                     }`}
-                  onClick={() => handleFlip(card)}
-                >
-                  <img
-                    src={
-                      card.value === "dummy"
-                        ? cardImages["dummy"]
-                        : isFlipped
-                        ? cardImages[card.value]
-                        : CardBack
-                    }
-                    alt={card.value}
-                    className="object-contain h-full w-full p-1"
-                  />
-                </div>
-              );
-            })}
+                      onClick={() => handleFlip(card)}
+                    >
+                      <img
+                        src={
+                          card.value === "dummy"
+                            ? cardImages["dummy"]
+                            : isFlipped
+                            ? cardImages[card.value]
+                            : CardBack
+                        }
+                        alt={card.value}
+                        className="object-contain h-full w-full p-1"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </div>
   );
 };
