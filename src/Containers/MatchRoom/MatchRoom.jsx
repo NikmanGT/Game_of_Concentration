@@ -225,12 +225,10 @@ const MatchRoom = () => {
             className="text-container p-3 lg:px-2 md:p-2 md:pl-8 space-y-2 text-black dark:text-amber-300 
           font-semibold"
           >
-            <p className="text-xl md:text-lg lg:text-2xl break-words">
-              👤 {userName}
-            </p>
-            <p className="text-xl md:text-lg lg:text-2xl">🎯 Moves: {moves}</p>
-            <p className="text-xl md:text-lg lg:text-2xl">🏆 Score: {score}</p>
-            <p className="text-xl md:text-lg lg:text-2xl">
+            <p className="text-xl lg:text-2xl break-words">👤 {userName}</p>
+            <p className="text-xl lg:text-2xl">🎯 Moves: {moves}</p>
+            <p className="text-xl lg:text-2xl">🏆 Score: {score}</p>
+            <p className="text-xl lg:text-2xl">
               📏 Difficulty: {difficulty.label}
             </p>
           </div>
@@ -251,7 +249,7 @@ const MatchRoom = () => {
           </div>
         </div>
 
-        <div className="Playing-Area w-full flex flex-col">
+        <div className="Playing-Area w-full flex flex-col overflow-hidden">
           <div
             className="Upper-container border-b-3 dark:border-cyan-400 dark:shadow-amber-300 shadow-lg shadow-slate-700
            z-10 w-full flex justify-between items-center flex-wrap gap-3 p-4"
@@ -299,10 +297,10 @@ const MatchRoom = () => {
             className={`Card-area grid ${gridCol} gap-2 sm:gap-3 md:gap-4 p-3 justify-items-center my-auto
             ${
               gridSize === 3
-                ? "h-[70vh]"
+                ? "h-[70vh] lg:-h[80vh]"
                 : gridSize === 4
-                ? "h-[70vh]"
-                : "max-h-[90vh]"
+                ? "h-[70vh] md:h-[65vh] lg:h-[80vh]"
+                : "h-[60vh] lg:h-[85vh]"
             }`}
           >
             {cards.map((card) => {
