@@ -125,6 +125,7 @@ const MatchRoom = () => {
   const [cards, setCards] = useState(generateCards);
 
   const resetGame = () => {
+    clearInterval(intervalRef.current);
     setTime(0);
     setMoves(0);
     setScore(0);
@@ -290,7 +291,7 @@ const MatchRoom = () => {
           </div>
 
           <div
-            className={`Card-area grid ${gridCol} gap-2 sm:gap-3 md:gap-4 p-3 justify-items-center
+            className={`Card-area grid ${gridCol} gap-2 sm:gap-3 md:gap-4 p-3 justify-items-center my-auto
             ${
               gridSize === 3
                 ? "h-[70vh]"
