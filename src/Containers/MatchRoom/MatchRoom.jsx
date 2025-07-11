@@ -20,7 +20,7 @@ import Card12 from "../../assets/Heart_King.svg";
 const MatchRoom = () => {
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
-    if (storedTheme === "dark") {
+    if (storedTheme === "dark" || !storedTheme) {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
@@ -189,7 +189,7 @@ const MatchRoom = () => {
           >
             <div className="text-container">
               <p
-                className="dark:text-fuchsia-400 text-4xl font-bold text-shadow-amber-400 text-shadow-lg/40
+                className="text-center dark:text-fuchsia-400 text-4xl font-bold text-shadow-amber-400 text-shadow-lg/40
                dark:text-shadow-cyan-300 "
               >
                 Are you sure you want to exit the Game ?
@@ -253,11 +253,12 @@ const MatchRoom = () => {
            z-10 w-full flex justify-between items-center flex-wrap gap-3 p-4"
           >
             <div
-              className="bg-amber-200 text-black rounded-full px-4 py-2 flex items-center gap-2 
+              className="bg-amber-200 lg:min-w-[15vw] text-black rounded-full px-5 py-2
+               flex gap-2 justify-center items-center
             shadow-[0_0_30px_#A2E4AB] dark:shadow-[0_0_15px_#22d3ee] "
             >
-              <BsStopwatch className="text-xl" />
-              <p className="text-lg font-semibold">Timer: {time}</p>
+              <BsStopwatch className="text-3xl" />
+              <p className="text-lg font-semibold text-center">Timer: {time}</p>
             </div>
 
             <div className="hidden lg:block">

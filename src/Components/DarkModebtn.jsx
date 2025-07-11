@@ -11,7 +11,7 @@ const DarkModeBtn = () => {
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
     } else {
-      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.remove("da rk");
       localStorage.setItem("theme", "light");
     }
   }, [dark]);

@@ -8,6 +8,13 @@
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <script type="module" src="/src/main.jsx">
+          const userTheme = localStorage.getItem("theme");
+      if (userTheme === "dark" || !userTheme) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    </script>
   </body>
 </html>

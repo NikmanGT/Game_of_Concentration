@@ -8,7 +8,7 @@ import mario from "../../assets/mario.svg";
 const Homepage = () => {
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
-    if (storedTheme === "dark") {
+    if (storedTheme === "dark" || !storedTheme) {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
