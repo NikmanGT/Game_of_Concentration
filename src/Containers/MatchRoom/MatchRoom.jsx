@@ -18,6 +18,7 @@ import Card11 from "../../assets/Heart_Queen.svg";
 import Card12 from "../../assets/Heart_King.svg";
 import { Player } from "@lottiefiles/react-lottie-player";
 import Loader from "../../assets/Playing cards spinning loader.json";
+import { motion } from "motion/react";
 
 const MatchRoom = () => {
   if (!localStorage.getItem("theme")) {
@@ -339,7 +340,23 @@ const MatchRoom = () => {
                     }`}
                       onClick={() => handleFlip(card)}
                     >
-                      <img
+                      <motion.img
+                        animate={{
+                          rotateY: isFlipped ? 360 : 0,
+                          ...(matchedCards.includes(card.id) && {
+                            boxShadow: [
+                              "0 0 0px rgba(255,255,0,0.0)",
+                              "0 0 20px rgba(255,255,0,0.8)",
+                              "0 0 40px rgba(255,255,0,0.6)",
+                              "0 0 20px rgba(255,255,0,0.8)",
+                              "0 0 0px rgba(255,255,0,0.0)",
+                            ],
+                          }),
+                        }}
+                        transition={{
+                          duration: 0.8,
+                          animationDirection: "",
+                        }}
                         src={
                           card.value === "dummy"
                             ? cardImages["dummy"]
@@ -349,7 +366,7 @@ const MatchRoom = () => {
                         }
                         alt={card.value}
                         className="object-contain h-full w-full p-1"
-                      />
+                      ></motion.img>
                     </div>
                   );
                 })}
