@@ -252,9 +252,10 @@ const MatchRoom = () => {
 
               <div className="game-btns flex-col justify-items-center p-2">
                 <DarkModeBtn />
-                <button
-                  className="lg:hidden mt-4 px-4 py-3 font-semibold rounded-full cursor-pointer transition-all duration-300
-              text-white bg-gradient-to-br from-fuchsia-700 to-violet-800
+                <motion.button
+                  whileTap={{ scale: 0.6 }}
+                  className="lg:hidden mt-4 px-4 py-3 font-semibold rounded-full cursor-pointer 
+                   text-white bg-gradient-to-br from-fuchsia-700 to-violet-800
               hover:from-purple-500 hover:to-pink-600 hover:shadow-[0_0_20px_#ff00ff]
                dark:bg-gradient-to-br dark:from-red-500 dark:to-green-300
             dark:hover:from-teal-400 dark:hover:to-cyan-300
@@ -262,7 +263,7 @@ const MatchRoom = () => {
                   onClick={() => resetGame()}
                 >
                   Refresh Game
-                </button>
+                </motion.button>
               </div>
             </div>
 
@@ -283,8 +284,9 @@ const MatchRoom = () => {
                 </div>
 
                 <div className="hidden lg:block">
-                  <button
-                    className="px-4 py-3 font-semibold rounded-full cursor-pointer transition-all duration-300
+                  <motion.button
+                    whileTap={{ scale: 0.8 }}
+                    className="px-4 py-3 font-semibold rounded-full cursor-pointer
               text-white bg-gradient-to-br from-fuchsia-700 to-violet-800
               hover:from-purple-500 hover:to-pink-600 hover:shadow-[0_0_20px_#ff00ff]
                dark:bg-gradient-to-br dark:from-red-500 dark:to-green-300
@@ -293,7 +295,7 @@ const MatchRoom = () => {
                     onClick={() => resetGame()}
                   >
                     Refresh Game
-                  </button>
+                  </motion.button>
                 </div>
 
                 <div>
@@ -313,7 +315,7 @@ const MatchRoom = () => {
               </div>
 
               <div
-                className={`Card-area grid ${gridCol} gap-2 sm:gap-3 md:gap-4 p-3 justify-items-center overflow-y-auto`}
+                className={`Card-area grid ${gridCol} gap-2 sm:gap-3 md:gap-4 p-3 justify-items-center h-full`}
               >
                 {cards.map((card) => {
                   const isFlipped =
@@ -361,7 +363,8 @@ const MatchRoom = () => {
                             : CardBack
                         }
                         alt={card.value}
-                        className="border-2 border-amber-300 rounded-lg"
+                        className="border-2 rounded-lg 
+                        shadow-2xl shadow-amber-900 dark:shadow-amber-300"
                       ></motion.img>
                     </div>
                   );

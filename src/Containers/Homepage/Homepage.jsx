@@ -3,7 +3,9 @@ import { useNavigate } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import { Bounce } from "react-toastify";
 import DarkModeBtn from "../../Components/DarkModebtn";
-import mario from "../../assets/mario.svg";
+import mario_ready from "../../assets/mario_ready.svg";
+import mario_loading from "../../assets/mario_loading.svg";
+import { motion } from "motion/react";
 
 const Homepage = () => {
   if (!localStorage.getItem("theme")) {
@@ -25,6 +27,9 @@ const Homepage = () => {
   const [ProfileModal, setProfileModal] = useState(false);
   const [leaderboardModal, setLeaderboardModal] = useState(false);
 
+  const [marioReady, setMarioReady] = useState(false);
+  const [nameInput, setNameInput] = useState("");
+
   const username = useRef(null);
 
   const difficulty = useRef(null);
@@ -39,6 +44,14 @@ const Homepage = () => {
     setSelected(option.label);
     localStorage.setItem("difficulty", JSON.stringify(difficulty.current));
   };
+
+  useEffect(() => {
+    if (difficulty.current != null && username.current?.value?.trim()) {
+      setMarioReady(true);
+    } else {
+      setMarioReady(false);
+    }
+  }, [selected, nameInput]);
 
   const [loaded, setLoaded] = useState(false);
   useEffect(() => {
@@ -240,6 +253,9 @@ const Homepage = () => {
                 <input
                   type="text"
                   ref={username}
+                  onChange={(e) => {
+                    setNameInput(e.target.value);
+                  }}
                   placeholder="Enter your name..."
                   className="w-full border-b-2 border-amber-500 focus:outline-none dark:text-white
                  dark:placeholder-gray-400 dark:focus:ring-cyan-400  transition-all duration-300"
@@ -287,15 +303,24 @@ const Homepage = () => {
                   className="group cursor-pointer border-2 border-pink-400 dark:border-cyan-300 text-black
                 dark:text-white bg-white/20 dark:bg-black/20 hover:bg-pink-500 dark:hover:bg-cyan-500 
                 hover:text-white px-5 lg:px-8 py-3 lg:py-4 rounded-full text-xl font-bold 
-                  flex items-center gap-3 shadow-[0_0_10px_#ff00ff] dark:shadow-[0_0_10px_#00ffff] 
+                   shadow-[0_0_10px_#ff00ff] dark:shadow-[0_0_10px_#00ffff] 
                    transition-all duration-500 hover:scale-105"
                   onClick={GameStartbtn}
                 >
-                  Let's-a go!!
-                  <img
-                    src={mario}
-                    className="size-8 group-hover:animate-bounce"
-                  ></img>
+                  {marioReady ? (
+                    <div className="group flex items-center gap-3">
+                      <p>Let's-a-go!!</p>
+                      <img
+                        src={mario_ready}
+                        className="size-11 animate-bounce"
+                      ></img>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-3">
+                      <p>Waiting for you</p>
+                      <img src={mario_loading} className="size-10"></img>
+                    </div>
+                  )}
                 </button>
               </div>
             </div>
@@ -378,7 +403,8 @@ const Homepage = () => {
           </p>
 
           <div className="Play-button-container flex justify-center pt-6">
-            <button
+            <motion.button
+              whileTap={{ scale: 0.7 }}
               onClick={() => {
                 setPlayModal(!PlayModal);
               }}
@@ -387,7 +413,7 @@ const Homepage = () => {
                 bg-gradient-to-r from-cyan-400 via-indigo-500 to-purple-600
                text-pink-300 dark:text-cyan-300 
               animate-bounce shadow-[0_10px_20px_#502424] dark:shadow-[0_5px_20px_rgb(255,249,178,0.8)] 
-              transition-all font-extrabold text-shadow-sm"
+               font-extrabold text-shadow-sm"
             >
               <p
                 className="text-2xl lg:text-4xl dark:text-shadow-lg/100 dark:text-shadow-amber-600
@@ -395,7 +421,7 @@ const Homepage = () => {
               >
                 🚨 Start
               </p>
-            </button>
+            </motion.button>
           </div>
         </div>
       </div>
