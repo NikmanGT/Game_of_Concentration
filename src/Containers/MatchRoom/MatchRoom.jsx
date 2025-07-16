@@ -180,10 +180,10 @@ const MatchRoom = () => {
 
   return (
     <div
-      className="absolute inset-0 -z-10 min-h-screen w-full 
+      className="absolute inset-0 -z-10 w-full 
       bg-gradient-to-b from-white via-purple-100 to-indigo-200 
       dark:bg-gradient-to-b dark:from-[#0d0d1e] dark:via-[#131325] dark:to-[#1a1a2e] 
-      overflow-hidden transition-all duration-500"
+       transition-all duration-500 border-4"
     >
       {loading ? (
         <div className="dwdw mx-auto relative top-[30vh]">
@@ -235,8 +235,8 @@ const MatchRoom = () => {
           ) : null}
           <div className="main-matchroom-container flex lg:flex-row flex-col h-full">
             <div
-              className="stats-container lg:w-1/4 flex lg:flex-col justify-between p-3 lg:px-1 lg:border-r-3
-        lg:dark:border-cyan-400 lg:dark:shadow-slate-600 shadow-lg shadow-slate-7000 backdrop-blur-md rounded-lg"
+              className="stats-container lg:w-1/4 flex lg:flex-col justify-between lg:p-3 lg:px-1 lg:border-r-3
+        lg:dark:border-cyan-400 lg:dark:shadow-slate-600 shadow-lg shadow-slate-7000 rounded-lg"
             >
               <div
                 className="text-container p-3 lg:px-2 md:p-2 md:pl-8 space-y-2 text-black dark:text-amber-300 
@@ -250,7 +250,7 @@ const MatchRoom = () => {
                 </p>
               </div>
 
-              <div className="game-btns flex-col justify-items-center">
+              <div className="game-btns flex-col justify-items-center p-2">
                 <DarkModeBtn />
                 <button
                   className="lg:hidden mt-4 px-4 py-3 font-semibold rounded-full cursor-pointer transition-all duration-300
@@ -313,14 +313,7 @@ const MatchRoom = () => {
               </div>
 
               <div
-                className={`Card-area grid ${gridCol} gap-2 sm:gap-3 md:gap-4 p-3 justify-items-center my-auto
-            ${
-              gridSize === 3
-                ? "h-[70vh] lg:-h[80vh]"
-                : gridSize === 4
-                ? "h-[70vh] md:h-[65vh] lg:h-[80vh]"
-                : "h-[60vh] lg:h-[85vh]"
-            }`}
+                className={`Card-area grid ${gridCol} gap-2 sm:gap-3 md:gap-4 p-3 justify-items-center overflow-y-auto`}
               >
                 {cards.map((card) => {
                   const isFlipped =
@@ -330,19 +323,22 @@ const MatchRoom = () => {
                   return (
                     <div
                       key={card.id}
-                      className={`aspect-square w-full rounded-2xl flex justify-center items-center cursor-pointer transition-transform duration-300 hover:scale-105
-                    ${
-                      gridSize === 3
-                        ? "max-w-[130px] sm:max-w-[115px] md:max-w-[120px] lg:max-w-[140px]"
-                        : gridSize === 4
-                        ? "max-w-[100px] sm:max-w-[95px] md:max-w-[85px] lg:max-w-[135px]"
-                        : "max-w-[10vh] sm:max-w-[10vh] md:max-w-[10vh] lg:max-w-[15vh]"
-                    }`}
+                      className={`aspect-[2/3] h-full rounded-2xl flex justify-center items-center cursor-pointer 
+                        transition-transform duration-300 hover:scale-105
+                         ${
+                           gridSize == 3
+                             ? "max-h-[20vh] lg:max-h-[26vh]"
+                             : gridSize == 4
+                             ? "max-h-[15vh] lg:max-h-[20vh]"
+                             : "max-h-[11.5vh] lg:max-h-[20vh]"
+                         }
+                         
+                         `}
                       onClick={() => handleFlip(card)}
                     >
                       <motion.img
                         animate={{
-                          rotateY: isFlipped ? 360 : 0,
+                          rotateY: isFlipped ? 180 : 0,
                           ...(matchedCards.includes(card.id) && {
                             boxShadow: [
                               "0 0 0px rgba(255,255,0,0.0)",
@@ -354,8 +350,8 @@ const MatchRoom = () => {
                           }),
                         }}
                         transition={{
-                          duration: 0.8,
-                          animationDirection: "",
+                          duration: matchedCards.includes(card.id) ? 2.5 : 0.8,
+                          ease: "easeInOut",
                         }}
                         src={
                           card.value === "dummy"
@@ -365,7 +361,7 @@ const MatchRoom = () => {
                             : CardBack
                         }
                         alt={card.value}
-                        className="object-contain h-full w-full p-1"
+                        className="border-2 border-amber-300 rounded-lg"
                       ></motion.img>
                     </div>
                   );

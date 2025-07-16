@@ -151,7 +151,7 @@ const Homepage = () => {
             onClick={(e) => e.stopPropagation()}
           >
             <div
-              className="float-right text-white bg-white/20 hover:bg-white/30
+              className="absolute top-3 right-3 text-white bg-white/20 hover:bg-white/30
                    dark:bg-white/10 dark:hover:bg-white/20 p-2 rounded-full transition"
             >
               <button
@@ -179,12 +179,9 @@ const Homepage = () => {
         >
           <div
             className="relative max-w-[95vw] lg:max-w-[600px] p-6 rounded-2xl border-2 
-            bg-white/20 dark:bg-black/10 
-      backdrop-blur-2xl backdrop-saturate-200
-      shadow-[0_0_30px_rgba(255,0,255,0.5)]
-      ring-2 ring-pink-500 ring-offset-2 ring-offset-white
-      dark:ring-cyan-400 dark:ring-offset-black
-      animate-slideDown transition-all duration-700 dark:text-white"
+            bg-white/20 dark:bg-black/10
+            shadow-[0_0_30px_rgba(255,0,255,0.5)] ring-2 ring-pink-500 ring-offset-2 ring-offset-white
+      dark:ring-cyan-400 dark:ring-offset-black animate-slideDown transition-all duration-700 dark:text-white"
             onClick={(e) => e.stopPropagation()}
           >
             <div
