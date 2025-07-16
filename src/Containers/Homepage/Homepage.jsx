@@ -5,7 +5,7 @@ import { Bounce } from "react-toastify";
 import DarkModeBtn from "../../Components/DarkModebtn";
 import mario_ready from "../../assets/mario_ready.svg";
 import mario_loading from "../../assets/mario_loading.svg";
-import { motion } from "motion/react";
+import { motion, useInView, AnimatePresence, easeInOut } from "motion/react";
 
 const Homepage = () => {
   if (!localStorage.getItem("theme")) {
@@ -52,6 +52,18 @@ const Homepage = () => {
       setMarioReady(false);
     }
   }, [selected, nameInput]);
+
+  const Text_ref = useRef(null);
+  const isInView = useInView(Text_ref, { once: true });
+
+  const words = ["Concentration", "Memory Matching", "Matching Pairs"];
+  const [animateIndex, setAnimateIndex] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAnimateIndex((prev) => (prev + 1) % words.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   const [loaded, setLoaded] = useState(false);
   useEffect(() => {
@@ -145,7 +157,7 @@ const Homepage = () => {
 
             <div className="flex flex-col items-center justify-center border-1 h-full">
               <p className="text-2xl font-bold dark:text-white text-black">
-                Enter your Profile
+                Profile feature hitting soon!
               </p>
               <div className="mt-6 Username-container"></div>
             </div>
@@ -178,7 +190,7 @@ const Homepage = () => {
 
             <div className="flex flex-col items-center justify-center h-full">
               <p className="text-2xl font-bold dark:text-white text-black">
-                Leaderboard Scores
+                Leaderboards coming soon!
               </p>
               <div className="mt-6 Username-container"></div>
             </div>
@@ -382,25 +394,42 @@ const Homepage = () => {
           </div>
         </div>
         <div className="hero-container relative top-40">
-          <p
-            className="text-center text-[clamp(1.875rem,5vw,4.5rem)] 
+          <motion.div>
+            <p
+              ref={Text_ref}
+              className="text-center text-[clamp(1.875rem,5vw,4.5rem)] 
                font-extrabold text-shadow-purple-700 dark:text-cyan-400 
                animate-pulse drop-shadow-[0_0_5px_#ff00ff,_0_0_20px_#ff00ff]
                hover:rotate-x-10 hover:scale-110 transform transition-all duration-500 ease-in-out"
-          >
-            Welcome to the Game of
-          </p>
-          <p
-            className="text-center text-[clamp(3rem,10vw,8rem)]  w-full break-words font-extrabold
-            bg-gradient-to-r from-indigo-400 via-blue-400 to-sky-500 
+            >
+              {"Welcome to the Game of".split("").map((letter, index) => {
+                return (
+                  <motion.span
+                    key={index}
+                    initial={{ opacity: 0 }}
+                    animate={isInView ? { opacity: 1 } : {}}
+                    transition={{ delay: 1 + index * 0.2 }}
+                  >
+                    {letter}
+                  </motion.span>
+                );
+              })}
+            </p>
+          </motion.div>
+          <div>
+            <AnimatePresence mode="wait">
+              <motion.p
+                className="text-center text-[clamp(3rem,10vw,8rem)]  w-full break-words font-extrabold
+                bg-gradient-to-r from-indigo-400 via-blue-400 to-sky-500 
              dark:from-amber-100 dark:via-yellow-500 dark:to-amber-100
               bg-clip-text text-transparent  drop-shadow-[0_0_8px_#ff0000]
               dark:drop-shadow-[0_0_15px_#ff00ff] 
-              transform transition-all duration-500 ease-in-out 
-              hover:rotate-1 hover:scale-115 "
-          >
-            Concentration
-          </p>
+              transform transition-all duration-500 ease-in-out hover:scale-115 "
+              >
+                {words[animateIndex]}
+              </motion.p>
+            </AnimatePresence>
+          </div>
 
           <div className="Play-button-container flex justify-center pt-6">
             <motion.button

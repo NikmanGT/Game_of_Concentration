@@ -186,7 +186,7 @@ const MatchRoom = () => {
        transition-all duration-500 border-4"
     >
       {loading ? (
-        <div className="dwdw mx-auto relative top-[30vh]">
+        <div className="mx-auto relative top-[30vh]">
           <Player className="size-56" autoplay loop src={Loader}></Player>
           <div className="text-container text-2xl md:text-3xl lg:text-4xl dark:text-white text-center mt-10">
             Good Luck Player....
@@ -236,7 +236,7 @@ const MatchRoom = () => {
           <div className="main-matchroom-container flex lg:flex-row flex-col h-full">
             <div
               className="stats-container lg:w-1/4 flex lg:flex-col justify-between lg:p-3 lg:px-1 lg:border-r-3
-        lg:dark:border-cyan-400 lg:dark:shadow-slate-600 shadow-lg shadow-slate-7000 rounded-lg"
+        lg:dark:border-cyan-400 border-fuchsia-600 lg:dark:shadow-slate-600 shadow-lg shadow-slate-7000 rounded-lg"
             >
               <div
                 className="text-container p-3 lg:px-2 md:p-2 md:pl-8 space-y-2 text-black dark:text-amber-300 
@@ -269,13 +269,13 @@ const MatchRoom = () => {
 
             <div className="Playing-Area w-full flex flex-col overflow-hidden">
               <div
-                className="Upper-container border-b-3 dark:border-cyan-400 dark:shadow-amber-300 shadow-lg shadow-slate-700
-           z-10 w-full flex justify-between items-center flex-wrap gap-3 p-4"
+                className="Upper-container border-b-3 dark:border-cyan-400 dark:shadow-amber-300 shadow-lg
+                 shadow-slate-700 z-10 w-full flex justify-between items-center flex-wrap gap-3 p-4"
               >
                 <div
                   className="bg-amber-200 lg:min-w-[15vw] text-black rounded-full px-5 py-2
                flex gap-2 justify-center items-center
-            shadow-[0_0_30px_#A2E4AB] dark:shadow-[0_0_15px_#22d3ee] "
+            shadow-[0_0_15px_#20d140] dark:shadow-[0_0_15px_#22d3ee]"
                 >
                   <BsStopwatch className="text-3xl" />
                   <p className="text-lg font-semibold text-center">
@@ -300,13 +300,13 @@ const MatchRoom = () => {
 
                 <div>
                   <button
-                    className="px-5 py-3  font-bold rounded-full shadow-lg transition-all duration-300 cursor-pointer
+                    className="px-5 py-3  font-bold rounded-full transition-all duration-300 cursor-pointer
                 bg-gradient-to-r from-yellow-950 to-amber-600 text-white border-none
               hover:from-indigo-800 hover:to-green-700 hover:shadow-[0_0_20px_#6c00ff]
                 dark:from-cyan-500 dark:to-teal-600
                   dark:hover:from-teal-400 dark:hover:to-cyan-600
-                dark:shadow-[0_0_20px_#00ffff]
-                 ring-2 ring-white dark:ring-cyan-400 dark:ring-offset-black"
+                dark:shadow-[0_0_20px_#00ffff] shadow-[0_0_30px_#f199e9]
+                 ring-2 ring-amber-400 hover:ring-fuchsia-500 dark:ring-cyan-400 dark:ring-offset-black"
                     onClick={() => setExitGameModal(!exitGameModal)}
                   >
                     End Game
