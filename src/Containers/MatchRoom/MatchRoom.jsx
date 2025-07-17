@@ -19,6 +19,7 @@ import Card12 from "../../assets/Heart_King.svg";
 import { Player } from "@lottiefiles/react-lottie-player";
 import Loader from "../../assets/Playing cards spinning loader.json";
 import { motion } from "motion/react";
+import Confetti from "react-confetti";
 
 const MatchRoom = () => {
   if (!localStorage.getItem("theme")) {
@@ -26,7 +27,6 @@ const MatchRoom = () => {
     document.documentElement.classList.add("dark");
   }
 
-  //Theme selection and Loader component
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
     if (storedTheme === "dark" || !storedTheme) {
@@ -39,7 +39,6 @@ const MatchRoom = () => {
     }, 2700);
   }, []);
 
-  //To accomodate Timer button for the Loader 2.7s delay
   const intervalRef = useRef(0);
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -74,19 +73,22 @@ const MatchRoom = () => {
   const [flippedCards, setFlippedCards] = useState([]);
   const [matchedCards, setMatchedCards] = useState([]);
 
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [winModal, setWinModal] = useState(false);
+  const { width, height } = [window.innerWidth, window.innerHeight];
+
   useEffect(() => {
     if (
       matchedCards.length ===
       (totalSlots % 2 === 0 ? totalSlots : totalSlots - 1)
     ) {
       clearInterval(intervalRef.current);
+      setShowConfetti(true);
       setTimeout(() => {
-        return alert(
-          `Finishing a Simple Card Game in almost ${time}s, get better, anyways congrats`
-        );
-      }, 800);
+        setWinModal(true);
+      }, 1500);
     }
-  }, [matchedCards, time, totalSlots]);
+  }, [matchedCards, totalSlots]);
 
   const cardImages = {
     "Card 1": Card1,
@@ -153,6 +155,7 @@ const MatchRoom = () => {
     setFlippedCards([]);
     setMatchedCards([]);
     setExitGameModal(false);
+    setShowConfetti(false);
     setCards(generateCards());
     intervalRef.current = setInterval(() => {
       setTime((time) => time + 1);
@@ -192,7 +195,7 @@ const MatchRoom = () => {
       className="absolute inset-0 -z-10 w-full 
       bg-gradient-to-b from-[#e9aad1] via-[#a8e7a8] to-[#aedef8]
       dark:bg-gradient-to-b dark:from-[#0d0d1e] dark:via-[#131325] dark:to-[#262670] 
-       transition-all duration-500 border-4"
+       transition-all duration-500 border-4 overflow-hidden"
     >
       {loading ? (
         <div className="mx-auto relative top-[30vh]">
@@ -227,7 +230,7 @@ const MatchRoom = () => {
                 </div>
                 <div className="btn-container flex justify-around">
                   <button
-                    onClick={() => navigate("/")}
+                    onClick={() => setExitGameModal(!exitGameModal)}
                     className="group relative overflow-hidden rounded-xl border-2 border-amber-300 px-6 py-3 
                     text-lg font-semibold tracking-wide transition-all duration-300 ease-in-out 
                     bg-gradient-to-br from-[#474ccf] via-[#61d6c1] to-[#c5eb6e] text-black shadow-md 
@@ -236,7 +239,7 @@ const MatchRoom = () => {
                    dark:text-slate-900 dark:hover:text-white dark:hover:bg-amber-950"
                   >
                     <p className="drop-shadow-sm dark:drop-shadow-[0_0_10px_#fffa]">
-                      To Homepage
+                      No Continue
                     </p>
                   </button>
                   <button
@@ -246,15 +249,79 @@ const MatchRoom = () => {
                     hover:scale-105 hover:ring-2 hover:ring-amber-500 hover:shadow-lg
                    dark:from-cyan-700 dark:via-cyan-400 dark:to-yellow-400 cursor-pointer 
                    dark:text-slate-900 dark:hover:text-white dark:hover:bg-amber-950"
-                    onClick={() => setExitGameModal(!exitGameModal)}
+                    onClick={() => navigate("/")}
                   >
                     <p className="drop-shadow-sm dark:drop-shadow-[0_0_10px_#fffa]">
-                      No Continue
+                      To Homepage
                     </p>
                   </button>
                 </div>
               </div>
             </div>
+          ) : null}
+          {winModal ? (
+            <motion.div
+              className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm flex items-center justify-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, duration: 2, delay: 2 }}
+            >
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, duration: 3, delay: 4 }}
+                className="mx-auto main-container w-[90vw] max-w-xl rounded-2xl p-6 sm:p-8 bg-white/60 dark:bg-black/40 
+               shadow-2xl backdrop-blur-lg border border-white/30 dark:border-white/20"
+              >
+                <div className="hero-text-cont text-center space-y-4">
+                  <h2
+                    className="text-3xl sm:text-5xl font-bold text-slate-900 dark:text-white 
+                   drop-shadow-sm dark:drop-shadow-[0_0_10px_#fff5]"
+                  >
+                    You Won 🎉🎉
+                  </h2>
+
+                  <hr className="border-t border-slate-300 dark:border-slate-600 my-4" />
+
+                  <p className="text-lg sm:text-xl font-medium text-slate-800 dark:text-slate-200">
+                    You finished the Game of{" "}
+                    <span className="font-semibold">{difficulty.label}</span>{" "}
+                    difficulty
+                    <br />
+                    within <span className="font-semibold">{time}s</span> in a
+                    total of <span className="font-semibold">{moves}</span>{" "}
+                    moves.
+                  </p>
+
+                  <div className="btn-container flex justify-center gap-4 mt-6">
+                    <button
+                      onClick={() => {
+                        resetGame();
+                        setWinModal(false);
+                      }}
+                      className="rounded-xl px-6 py-3 font-semibold text-black dark:text-slate-900
+                      bg-gradient-to-br from-[#474ccf] via-[#61d6c1] to-[#c5eb6e]
+                      border border-amber-300 hover:ring-2 hover:ring-amber-500
+                       transition-transform duration-300 ease-in-out hover:scale-105 cursor-pointer
+                     dark:from-cyan-700 dark:via-cyan-400 dark:to-yellow-400
+                     dark:hover:text-white dark:hover:bg-amber-950 shadow-md"
+                    >
+                      Play Again
+                    </button>
+
+                    <button
+                      onClick={() => navigate("/")}
+                      className="rounded-xl px-6 py-3 font-semibold text-black dark:text-slate-900
+                      bg-gradient-to-br from-[#474ccf] via-[#61d6c1] to-[#c5eb6e]
+                       border border-amber-300 hover:ring-2 hover:ring-amber-500 cursor-pointer
+                         transition-transform duration-300 ease-in-out hover:scale-105
+                       dark:from-cyan-700 dark:via-cyan-400 dark:to-yellow-400
+                     dark:hover:text-white dark:hover:bg-amber-950 shadow-md"
+                    >
+                      To Homepage
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
           ) : null}
           <div className="main-matchroom-container flex lg:flex-row flex-col h-full">
             <div
@@ -293,7 +360,7 @@ const MatchRoom = () => {
             <div className="Playing-Area w-full flex flex-col overflow-hidden">
               <div
                 className="Upper-container border-b-3 dark:border-cyan-400 dark:shadow-amber-300 shadow-lg
-                 shadow-slate-700 z-10 w-full flex justify-between items-center flex-wrap gap-3 p-4"
+                 shadow-slate-700 w-full flex justify-between items-center flex-wrap gap-3 p-4"
               >
                 <div
                   className="bg-amber-200 lg:min-w-[15vw] text-black rounded-full px-5 py-2
@@ -349,7 +416,7 @@ const MatchRoom = () => {
                     <div
                       key={card.id}
                       className={`aspect-[2/3] rounded-sm flex justify-center items-center cursor-pointer 
-                      transition-transform duration-300 hover:scale-105 
+                      transition-transform duration-300 hover:scale-105
                      ${
                        gridSize == 3
                          ? "h-[20vh] lg:h-[26vh]"
@@ -361,7 +428,7 @@ const MatchRoom = () => {
                       style={{ perspective: "1000px" }}
                     >
                       <motion.div
-                        className=" w-full h-full [transform-style:preserve-3d]"
+                        className="w-full h-full [transform-style:preserve-3d]"
                         animate={{ rotateY: isFlipped ? 180 : 0 }}
                         transition={{ duration: 0.5, ease: "easeInOut" }}
                       >
@@ -376,8 +443,14 @@ const MatchRoom = () => {
                                 : CardBack
                             }
                             alt="Back"
-                            className=" rounded-lg shadow-2xl drop-shadow-2xl shadow-amber-900
-                             dark:shadow-amber-300"
+                            className={`shadow-2xl drop-shadow-2xl
+                               shadow-amber-900 bg-white dark:shadow-amber-300
+                               ${
+                                 card.value != "dummy"
+                                   ? "border-red-700 border-4"
+                                   : ""
+                               }
+                             `}
                           />
                         </div>
 
@@ -395,7 +468,8 @@ const MatchRoom = () => {
                                 : cardImages[card.value]
                             }
                             alt={card.value}
-                            className="object-contain rounded-sm shadow-2xl shadow-amber-900 dark:shadow-amber-300 bg-white"
+                            className="object-contain rounded-sm shadow-2xl shadow-amber-900
+                             dark:shadow-amber-300 bg-white"
                             animate={{
                               ...(matchedCards.includes(card.id) && {
                                 boxShadow: [
@@ -424,6 +498,7 @@ const MatchRoom = () => {
           </div>
         </>
       )}
+      {showConfetti && <Confetti width={width} height={height} />}
     </div>
   );
 };
