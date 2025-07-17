@@ -25,6 +25,8 @@ const MatchRoom = () => {
     localStorage.setItem("theme", "dark");
     document.documentElement.classList.add("dark");
   }
+
+  //Theme selection and Loader component
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
     if (storedTheme === "dark" || !storedTheme) {
@@ -35,6 +37,21 @@ const MatchRoom = () => {
     setTimeout(() => {
       setLoading(!loading);
     }, 2700);
+  }, []);
+
+  //To accomodate Timer button for the Loader 2.7s delay
+  const intervalRef = useRef(0);
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      intervalRef.current = setInterval(() => {
+        setTime((time) => time + 1);
+      }, 1000);
+    }, 2700);
+
+    return () => {
+      clearTimeout(timeoutId);
+      clearInterval(intervalRef.current);
+    };
   }, []);
 
   const userName = localStorage.getItem("username");
@@ -56,14 +73,6 @@ const MatchRoom = () => {
 
   const [flippedCards, setFlippedCards] = useState([]);
   const [matchedCards, setMatchedCards] = useState([]);
-
-  const intervalRef = useRef(0);
-  useEffect(() => {
-    intervalRef.current = setInterval(() => {
-      setTime((time) => time + 1);
-    }, 1000);
-    return () => clearInterval(intervalRef.current);
-  }, []);
 
   useEffect(() => {
     if (
@@ -325,47 +334,73 @@ const MatchRoom = () => {
                   return (
                     <div
                       key={card.id}
-                      className={`aspect-[2/3] h-full rounded-2xl flex justify-center items-center cursor-pointer 
-                        transition-transform duration-300 hover:scale-105
-                         ${
-                           gridSize == 3
-                             ? "max-h-[20vh] lg:max-h-[26vh]"
-                             : gridSize == 4
-                             ? "max-h-[15vh] lg:max-h-[20vh]"
-                             : "max-h-[11.5vh] lg:max-h-[20vh]"
-                         }
-                         
-                         `}
+                      className={`aspect-[2/3] rounded-sm flex justify-center items-center cursor-pointer 
+                      transition-transform duration-300 hover:scale-105 
+                     ${
+                       gridSize == 3
+                         ? "h-[20vh] lg:h-[26vh]"
+                         : gridSize == 4
+                         ? "h-[15vh] lg:h-[20vh]"
+                         : "h-[11.5vh] lg:h-[20vh]"
+                     }`}
                       onClick={() => handleFlip(card)}
+                      style={{ perspective: "1000px" }}
                     >
-                      <motion.img
-                        animate={{
-                          rotateY: isFlipped ? 180 : 0,
-                          ...(matchedCards.includes(card.id) && {
-                            boxShadow: [
-                              "0 0 0px rgba(255,255,0,0.0)",
-                              "0 0 20px rgba(255,255,0,0.8)",
-                              "0 0 40px rgba(255,255,0,0.6)",
-                              "0 0 20px rgba(255,255,0,0.8)",
-                              "0 0 0px rgba(255,255,0,0.0)",
-                            ],
-                          }),
-                        }}
-                        transition={{
-                          duration: matchedCards.includes(card.id) ? 2.5 : 0.8,
-                          ease: "easeInOut",
-                        }}
-                        src={
-                          card.value === "dummy"
-                            ? cardImages["dummy"]
-                            : isFlipped
-                            ? cardImages[card.value]
-                            : CardBack
-                        }
-                        alt={card.value}
-                        className="border-2 rounded-lg 
-                        shadow-2xl shadow-amber-900 dark:shadow-amber-300"
-                      ></motion.img>
+                      <motion.div
+                        className="w-full h-full [transform-style:preserve-3d]"
+                        animate={{ rotateY: isFlipped ? 180 : 0 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                      >
+                        <div
+                          className="absolute [backface-visibility:hidden]"
+                          style={{ backfaceVisibility: "hidden" }}
+                        >
+                          <img
+                            src={
+                              card.value === "dummy"
+                                ? cardImages["dummy"]
+                                : CardBack
+                            }
+                            alt="Back"
+                            className="rounded-lg shadow-2xl shadow-amber-900 dark:shadow-amber-300 "
+                          />
+                        </div>
+
+                        <div
+                          className="absolute [backface-visibility:hidden]"
+                          style={{
+                            transform: "rotateY(180deg)",
+                            backfaceVisibility: "hidden",
+                          }}
+                        >
+                          <motion.img
+                            src={
+                              card.value === "dummy"
+                                ? cardImages["dummy"]
+                                : cardImages[card.value]
+                            }
+                            alt={card.value}
+                            className="rounded-lg shadow-2xl shadow-amber-900 dark:shadow-amber-300"
+                            animate={{
+                              ...(matchedCards.includes(card.id) && {
+                                boxShadow: [
+                                  "0 0 0px rgba(255,255,0,0.0)",
+                                  "0 0 20px rgba(255,255,0,0.8)",
+                                  "0 0 40px rgba(255,255,0,0.6)",
+                                  "0 0 20px rgba(255,255,0,0.8)",
+                                  "0 0 0px rgba(255,255,0,0.0)",
+                                ],
+                              }),
+                            }}
+                            transition={{
+                              duration: matchedCards.includes(card.id)
+                                ? 1
+                                : 0.8,
+                              ease: "easeInOut",
+                            }}
+                          />
+                        </div>
+                      </motion.div>
                     </div>
                   );
                 })}

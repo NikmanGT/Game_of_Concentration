@@ -44,7 +44,6 @@ const Homepage = () => {
     setSelected(option.label);
     localStorage.setItem("difficulty", JSON.stringify(difficulty.current));
   };
-
   useEffect(() => {
     if (difficulty.current != null && username.current?.value?.trim()) {
       setMarioReady(true);
@@ -61,7 +60,7 @@ const Homepage = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setAnimateIndex((prev) => (prev + 1) % words.length);
-    }, 3000);
+    }, 2000);
     return () => clearInterval(interval);
   }, []);
 
@@ -69,7 +68,7 @@ const Homepage = () => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setLoaded(true);
-    }, 900);
+    }, 1000);
     return () => {
       clearTimeout(timeout);
     };
@@ -419,6 +418,11 @@ const Homepage = () => {
           <div>
             <AnimatePresence mode="wait">
               <motion.p
+                key={words[animateIndex]}
+                initial={{ opacity: 0, y: -25 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 500, opacity: 0 }}
+                transition={{ duration: 2, ease: easeInOut }}
                 className="text-center text-[clamp(3rem,10vw,8rem)]  w-full break-words font-extrabold
                 bg-gradient-to-r from-indigo-400 via-blue-400 to-sky-500 
              dark:from-amber-100 dark:via-yellow-500 dark:to-amber-100
