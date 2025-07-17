@@ -4,7 +4,7 @@ import CardBack from "../../assets/Card_back.svg";
 import DarkModeBtn from "../../Components/DarkModebtn";
 import { BsStopwatch } from "react-icons/bs";
 import JokerCard from "../../assets/Joker.svg";
-import Card1 from "../../assets/Heart_01.svg";
+import Card1 from "../../assets/Heart_Ace.svg";
 import Card2 from "../../assets/Heart_02.svg";
 import Card3 from "../../assets/Heart_03.svg";
 import Card4 from "../../assets/Heart_04.svg";
@@ -190,8 +190,8 @@ const MatchRoom = () => {
   return (
     <div
       className="absolute inset-0 -z-10 w-full 
-      bg-gradient-to-b from-white via-purple-100 to-indigo-200 
-      dark:bg-gradient-to-b dark:from-[#0d0d1e] dark:via-[#131325] dark:to-[#1a1a2e] 
+      bg-gradient-to-b from-[#e9aad1] via-[#a8e7a8] to-[#aedef8]
+      dark:bg-gradient-to-b dark:from-[#0d0d1e] dark:via-[#131325] dark:to-[#262670] 
        transition-all duration-500 border-4"
     >
       {loading ? (
@@ -210,33 +210,47 @@ const MatchRoom = () => {
             >
               <div
                 className="main-container relative border-amber-200 border-2 animate-slideDown max-w-[95vw]
-             flex flex-col gap-10 p-6 rounded-2xl bg-white/20 dark:bg-black/10 
-             backdrop-blur-2xl backdrop-saturate-200 shadow-[0_0_30px_rgba(255,0,255,0.5)]
-              ring-2 ring-pink-500 ring-offset-2 ring-offset-white
-            dark:ring-cyan-400 dark:ring-offset-black
-              animate-slideDown transition-all duration-700 dark:text-white"
+             flex flex-col gap-10 p-6 rounded-2xl bg-white/20 dark:bg-black/10 shadow-[0_0_30px_rgba(255,0,255,0.5)] 
+             ring-2 ring-pink-500 ring-offset-2 ring-offset-white dark:ring-cyan-400
+              dark:ring-offset-black animate-slideDown transition-all duration-700 dark:text-white"
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="text-container">
                   <p
-                    className="text-center dark:text-fuchsia-400 text-4xl font-bold text-shadow-amber-400 text-shadow-lg/40
-               dark:text-shadow-cyan-300 "
+                    className="text-2xl font-extrabold tracking-wide bg-clip-text text-transparent 
+               bg-gradient-to-r  from-[#3b0303] via-[#46053c] to-[#46053c] 
+               dark:from-cyan-300 dark:via-cyan-500 dark:to-cyan-300
+               drop-shadow-[0_0_20px_rgb(70,70,255)] dark:drop-shadow-[0_0_15px_#00ffff] uppercase text-center p-10"
                   >
                     Are you sure you want to exit the Game ?
                   </p>
                 </div>
                 <div className="btn-container flex justify-around">
                   <button
-                    className="text-4xl hover:scale-110 cursor-pointer transition-transform duration-300 ease-in-out"
-                    onClick={() => setExitGameModal(!exitGameModal)}
+                    onClick={() => navigate("/")}
+                    className="group relative overflow-hidden rounded-xl border-2 border-amber-300 px-6 py-3 
+                    text-lg font-semibold tracking-wide transition-all duration-300 ease-in-out 
+                    bg-gradient-to-br from-[#474ccf] via-[#61d6c1] to-[#c5eb6e] text-black shadow-md 
+                    hover:scale-105 hover:ring-2 hover:ring-amber-500 hover:shadow-lg
+                   dark:from-cyan-700 dark:via-cyan-400 dark:to-yellow-400 cursor-pointer
+                   dark:text-slate-900 dark:hover:text-white dark:hover:bg-amber-950"
                   >
-                    ❌
+                    <p className="drop-shadow-sm dark:drop-shadow-[0_0_10px_#fffa]">
+                      To Homepage
+                    </p>
                   </button>
                   <button
-                    className="text-4xl hover:scale-110 cursor-pointer transition-transform duration-300 ease-in-out"
-                    onClick={() => navigate("/")}
+                    className="group relative overflow-hidden rounded-xl border-2 border-amber-300 px-6 py-3 
+                    text-lg font-semibold tracking-wide transition-all duration-300 ease-in-out 
+                    bg-gradient-to-br from-[#474ccf] via-[#61d6c1] to-[#c5eb6e] text-black shadow-md 
+                    hover:scale-105 hover:ring-2 hover:ring-amber-500 hover:shadow-lg
+                   dark:from-cyan-700 dark:via-cyan-400 dark:to-yellow-400 cursor-pointer 
+                   dark:text-slate-900 dark:hover:text-white dark:hover:bg-amber-950"
+                    onClick={() => setExitGameModal(!exitGameModal)}
                   >
-                    ✅
+                    <p className="drop-shadow-sm dark:drop-shadow-[0_0_10px_#fffa]">
+                      No Continue
+                    </p>
                   </button>
                 </div>
               </div>
@@ -245,7 +259,7 @@ const MatchRoom = () => {
           <div className="main-matchroom-container flex lg:flex-row flex-col h-full">
             <div
               className="stats-container lg:w-1/4 flex lg:flex-col justify-between lg:p-3 lg:px-1 lg:border-r-3
-        lg:dark:border-cyan-400 border-fuchsia-600 lg:dark:shadow-slate-600 shadow-lg shadow-slate-7000 rounded-lg"
+        lg:dark:border-cyan-400 lg:dark:shadow-slate-600 shadow-lg shadow-slate-7000 rounded-sm"
             >
               <div
                 className="text-container p-3 lg:px-2 md:p-2 md:pl-8 space-y-2 text-black dark:text-amber-300 
@@ -283,8 +297,8 @@ const MatchRoom = () => {
               >
                 <div
                   className="bg-amber-200 lg:min-w-[15vw] text-black rounded-full px-5 py-2
-               flex gap-2 justify-center items-center
-            shadow-[0_0_15px_#20d140] dark:shadow-[0_0_15px_#22d3ee]"
+                flex gap-2 justify-center items-center drop-shadow-2xl
+                shadow-[0_0_10px_#20d140] dark:shadow-[0_0_15px_#22d3ee]"
                 >
                   <BsStopwatch className="text-3xl" />
                   <p className="text-lg font-semibold text-center">
@@ -347,12 +361,12 @@ const MatchRoom = () => {
                       style={{ perspective: "1000px" }}
                     >
                       <motion.div
-                        className="w-full h-full [transform-style:preserve-3d]"
+                        className=" w-full h-full [transform-style:preserve-3d]"
                         animate={{ rotateY: isFlipped ? 180 : 0 }}
                         transition={{ duration: 0.5, ease: "easeInOut" }}
                       >
                         <div
-                          className="absolute [backface-visibility:hidden]"
+                          className="absolute w-full h-full [backface-visibility:hidden]"
                           style={{ backfaceVisibility: "hidden" }}
                         >
                           <img
@@ -362,12 +376,13 @@ const MatchRoom = () => {
                                 : CardBack
                             }
                             alt="Back"
-                            className="rounded-lg shadow-2xl shadow-amber-900 dark:shadow-amber-300 "
+                            className=" rounded-lg shadow-2xl drop-shadow-2xl shadow-amber-900
+                             dark:shadow-amber-300"
                           />
                         </div>
 
                         <div
-                          className="absolute [backface-visibility:hidden]"
+                          className="absolute w-full h-full [backface-visibility:hidden]"
                           style={{
                             transform: "rotateY(180deg)",
                             backfaceVisibility: "hidden",
@@ -380,7 +395,7 @@ const MatchRoom = () => {
                                 : cardImages[card.value]
                             }
                             alt={card.value}
-                            className="rounded-lg shadow-2xl shadow-amber-900 dark:shadow-amber-300"
+                            className="object-contain rounded-sm shadow-2xl shadow-amber-900 dark:shadow-amber-300 bg-white"
                             animate={{
                               ...(matchedCards.includes(card.id) && {
                                 boxShadow: [

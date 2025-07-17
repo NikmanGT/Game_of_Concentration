@@ -154,8 +154,8 @@ const Homepage = () => {
               </button>
             </div>
 
-            <div className="flex flex-col items-center justify-center border-1 h-full">
-              <p className="text-2xl font-bold dark:text-white text-black">
+            <div className="flex flex-col items-center justify-center h-full">
+              <p className="text-2xl text-center font-bold dark:text-white text-black">
                 Profile feature hitting soon!
               </p>
               <div className="mt-6 Username-container"></div>
@@ -188,7 +188,7 @@ const Homepage = () => {
             </div>
 
             <div className="flex flex-col items-center justify-center h-full">
-              <p className="text-2xl font-bold dark:text-white text-black">
+              <p className="text-2xl text-center font-bold dark:text-white text-black">
                 Leaderboards coming soon!
               </p>
               <div className="mt-6 Username-container"></div>
@@ -225,8 +225,8 @@ const Homepage = () => {
             <div className="flex flex-col h-full lg:gap-9 gap-4">
               <div className="text-container flex flex-col lg:gap-5 gap-3">
                 <p
-                  className="text-4xl lg:text-6xl md:text-5xl -z-8 font-bold text-transparent 
-                   bg-clip-text bg-gradient-to-r from-black via-gray-800 to-black 
+                  className="text-4xl lg:text-6xl md:text-5xl -z-8 font-extrabold lg:font-bold
+                   bg-clip-text bg-gradient-to-r from-black via-black to-black 
                   drop-shadow-[0_0_12px_#ff00ff] dark:from-cyan-300 dark:via-cyan-500 dark:to-cyan-300 
                   dark:drop-shadow-[0_0_15px_#00ffff] text-center p-3"
                 >
@@ -415,11 +415,11 @@ const Homepage = () => {
               })}
             </p>
           </motion.div>
-          <div>
+          <div className="">
             <AnimatePresence mode="wait">
               <motion.p
                 key={words[animateIndex]}
-                initial={{ opacity: 0, y: -25 }}
+                initial={{ opacity: 0, y: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: 500, opacity: 0 }}
                 transition={{ duration: 2, ease: easeInOut }}
