@@ -38,7 +38,9 @@ Welcome to the **Game of Concentration** – a fast, brain-teasing memory game w
 
 - React.js
 - Tailwind CSS
-- Vercel (for deployment)
+- Node.js (Express)
+- PostgreSQL
+- Vercel (for deployment) 
 
 ---
 
