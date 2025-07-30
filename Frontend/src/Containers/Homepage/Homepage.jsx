@@ -229,6 +229,7 @@ const Homepage = () => {
                    bg-clip-text bg-gradient-to-r from-black via-black to-black 
                   drop-shadow-[0_0_12px_#ff00ff] dark:from-cyan-300 dark:via-cyan-500 dark:to-cyan-300 
                   dark:drop-shadow-[0_0_15px_#00ffff] text-center p-3"
+                  style={{ fontFamily: "Nunito, sans-serif" }}
                 >
                   «Rules»
                 </p>
@@ -364,7 +365,10 @@ const Homepage = () => {
                 transition-all duration-700"
               ></div>
               <div className="relative z-10 flex justify-center items-center h-full px-4 lg:px-7">
-                <p className="text-black dark:text-white font-bold tracking-wide">
+                <p
+                  className="text-black dark:text-white font-extrabold lg:text-xl tracking-wide text-lg"
+                  style={{ fontFamily: "Nunito, sans-serif" }}
+                >
                   Profile
                 </p>
               </div>
@@ -382,7 +386,10 @@ const Homepage = () => {
                 opacity-0 group-hover:opacity-80 transition-all duration-700"
               ></div>
               <div className="relative z-10 flex justify-center items-center h-full px-4 lg:px-7">
-                <p className="text-black dark:text-white font-bold tracking-wide">
+                <p
+                  className="text-black dark:text-white font-bold tracking-wide lg:text-xl text-lg"
+                  style={{ fontFamily: "Nunito, sans-serif" }}
+                >
                   Leaderboard
                 </p>
               </div>

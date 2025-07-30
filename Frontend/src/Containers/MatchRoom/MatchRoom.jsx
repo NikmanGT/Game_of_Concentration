@@ -196,6 +196,7 @@ const MatchRoom = () => {
       bg-gradient-to-b from-[#e9aad1] via-[#a8e7a8] to-[#aedef8]
       dark:bg-gradient-to-b dark:from-[#0d0d1e] dark:via-[#131325] dark:to-[#262670] 
        transition-all duration-500 border-4 overflow-hidden"
+      style={{ fontFamily: "'Poppins', sans-serif" }}
     >
       {loading ? (
         <div className="mx-auto relative top-[30vh]">
