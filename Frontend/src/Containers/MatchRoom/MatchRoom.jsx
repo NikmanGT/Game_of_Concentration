@@ -22,18 +22,9 @@ import { motion } from "motion/react";
 import Confetti from "react-confetti";
 
 const MatchRoom = () => {
-  if (!localStorage.getItem("theme")) {
-    localStorage.setItem("theme", "dark");
-    document.documentElement.classList.add("dark");
-  }
-
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
-    if (storedTheme === "dark" || !storedTheme) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+    document.documentElement.classList.toggle("dark", storedTheme === "dark");
     setTimeout(() => {
       setLoading(!loading);
     }, 2700);

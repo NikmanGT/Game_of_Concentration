@@ -7,11 +7,7 @@
     <title>Concentration</title>
     <script>
       const userTheme = localStorage.getItem("theme");
-      if (userTheme === "dark" || !userTheme) {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
+      document.documentElement.classList.toggle("dark", userTheme === "dark");
     </script>
   </head>
   <body>

@@ -1,24 +1,28 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { Bounce } from "react-toastify";
 import DarkModeBtn from "../../Components/DarkModebtn";
 import mario_ready from "../../assets/mario_ready.svg";
 import mario_loading from "../../assets/mario_loading.svg";
 import { motion, useInView, AnimatePresence, easeInOut } from "motion/react";
+import axios from "axios";
 
 const Homepage = () => {
-  if (!localStorage.getItem("theme")) {
-    localStorage.setItem("theme", "dark");
-    document.documentElement.classList.add("dark");
-  }
+  const [user, setUser] = useState(null);
+
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
-    if (storedTheme === "dark" || !storedTheme) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+    document.documentElement.classList.toggle("dark", storedTheme === "dark");
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get("http://localhost:8000/api/getUser", {
+          withCredentials: true,
+        });
+        setUser(res.data.user);
+      } catch (err) {}
+    };
+    fetchUser();
   }, []);
 
   let navigate = useNavigate();
@@ -28,9 +32,6 @@ const Homepage = () => {
   const [leaderboardModal, setLeaderboardModal] = useState(false);
 
   const [marioReady, setMarioReady] = useState(false);
-  const [nameInput, setNameInput] = useState("");
-
-  const username = useRef(null);
 
   const difficulty = useRef(null);
   const [selected, setSelected] = useState(null);
@@ -45,12 +46,12 @@ const Homepage = () => {
     localStorage.setItem("difficulty", JSON.stringify(difficulty.current));
   };
   useEffect(() => {
-    if (difficulty.current != null && username.current?.value?.trim()) {
+    if (difficulty.current != null) {
       setMarioReady(true);
     } else {
       setMarioReady(false);
     }
-  }, [selected, nameInput]);
+  }, [selected]);
 
   const Text_ref = useRef(null);
   const isInView = useInView(Text_ref, { once: true });
@@ -104,7 +105,6 @@ const Homepage = () => {
       });
       return;
     }
-    localStorage.setItem("username", username.current.value);
     navigate("/matchRoom");
   };
 

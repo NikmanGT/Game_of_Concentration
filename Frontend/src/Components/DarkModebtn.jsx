@@ -4,19 +4,15 @@ import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 
 const DarkModeBtn = () => {
-  const [dark, setDark] = useState(() => {
-    return localStorage.getItem("theme") === "dark";
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem("theme") || "dark";
   });
   useEffect(() => {
-    if (dark) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, [dark]);
-  const toggleDarkMode = () => setDark((prev) => !prev);
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+  const toggleDarkMode = () =>
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
 
   return (
     <div className="dark-mode-btn">
@@ -28,7 +24,7 @@ const DarkModeBtn = () => {
                      hover:scale-105 font-bold tracking-wide cursor-pointer"
         onClick={toggleDarkMode}
       >
-        {dark ? <FiSun className="size-5" /> : <IoMoon className="size-5" />}
+        {theme ? <FiSun className="size-5" /> : <IoMoon className="size-5" />}
       </motion.button>
     </div>
   );

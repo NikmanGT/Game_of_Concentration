@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import DarkModeBtn from "../../Components/DarkModebtn";
 import authBG from "../../assets/Signup-img.jpg";
-import axios, { AxiosHeaders } from "axios";
+import axios from "axios";
 import { FcGoogle } from "react-icons/fc";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import { GiCardRandom } from "react-icons/gi";
@@ -10,19 +10,9 @@ import { ToastContainer, toast, Bounce } from "react-toastify";
 import { motion, scale } from "motion/react";
 
 const Landing = () => {
-  if (!localStorage.getItem("theme")) {
-    localStorage.setItem("theme", "dark");
-    document.documentElement.classList.add("dark");
-  }
-  const isDark = document.documentElement.classList.contains("dark");
-
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
-    if (storedTheme === "dark" || !storedTheme) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+    document.documentElement.classList.toggle("dark", storedTheme === "dark");
   }, []);
 
   const navigate = useNavigate();
@@ -56,7 +46,9 @@ const Landing = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "dark",
+        theme: document.documentElement.classList.contains("dark")
+          ? "light"
+          : "dark",
         transition: Bounce,
       });
       return;
@@ -70,7 +62,9 @@ const Landing = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: document.documentElement.classList.contains("dark")
+            ? "light"
+            : "dark",
           transition: Bounce,
         });
         return;
@@ -85,7 +79,9 @@ const Landing = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: document.documentElement.classList.contains("dark")
+            ? "light"
+            : "dark",
           transition: Bounce,
         });
         return;
@@ -100,7 +96,9 @@ const Landing = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "dark",
+          theme: document.documentElement.classList.contains("dark")
+            ? "light"
+            : "dark",
           transition: Bounce,
         });
         return;
@@ -112,14 +110,45 @@ const Landing = () => {
         "http://localhost:8000/api/registerUser",
         userData,
         {
+          withCredentials: true,
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
-      console.log("Your user is as follows: ", result);
+      if (result.status == 201) {
+        navigate("/Homepage");
+      }
     } catch (err) {
-      console.log("Error: ", err.message);
+      if (err.response?.status == 400) {
+        toast.error(err.response?.data.message, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: document.documentElement.classList.contains("dark")
+            ? "light"
+            : "dark",
+          transition: Bounce,
+        });
+      } else {
+        toast.error("Registration failed. Please Try Again!", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: document.documentElement.classList.contains("dark")
+            ? "light"
+            : "dark",
+          transition: Bounce,
+        });
+      }
     }
   };
 
@@ -159,8 +188,8 @@ const Landing = () => {
       />
       <div
         className="absolute inset-0 -z-10 main-signup-container h-full w-full
-       bg-gradient-to-b from-[#beb5b5] via-[#fefadf] to-[#d6d1ae]
-       dark:bg-gradient-to-b dark:from-[#141417] dark:via-[#06001e] dark:to-[#332d02] font-[Nunito]"
+       bg-gradient-to-b from-[#beb5b5] via-[#fefadf] to-[#d6d1ae] dark:bg-gradient-to-b
+        dark:from-[#141417] dark:via-[#06001e] dark:to-[#332d02] font-[Nunito]"
       >
         <div
           className="working-container flex flex-col lg:flex-row h-full transform transition-transform duration-900 
@@ -213,9 +242,9 @@ const Landing = () => {
             </div>
 
             <div
-              className="Signup-form lg:border-none rounded-3xl p-4 lg:p-8 flex flex-col
-                mx-auto relative lg:bg-transparent transition-all duration-500
-               ease-in-out backdrop-blur-lg bg-white/30 dark:bg-black/40"
+              className="Signup-form lg:border-none rounded-3xl p-4 lg:p-8 flex flex-col ease-in-out
+                mx-auto relative lg:bg-transparent dark:lg:bg-transparent transition-all duration-500 
+                backdrop-blur-lg bg-white/30 dark:bg-black/30"
             >
               <p
                 className=" text-3xl md:text-4xl lg:text-5xl text-center pb-3 font-semibold tracking-wide
@@ -299,7 +328,8 @@ const Landing = () => {
 
                 <motion.button
                   className="Submit-button w-full bg-amber-300 p-3 lg:mt-10 mt-10 rounded-4xl cursor-pointer 
-                  hover:scale-105 transition-all duration-300 ease-in-out font-bold"
+                  hover:scale-105 transition-all duration-300 ease-in-out font-bold shadow-xl/30 shadow-black
+                  dark:shadow-amber-600"
                   onClick={() => {
                     isLogin ? LoginUser() : RegisterUser();
                   }}
@@ -320,9 +350,9 @@ const Landing = () => {
                       : "Have an account already?"}
                   </p>
                   <button
-                    className="Google-btn flex shadow-2xl dark:shadow-xl/10 shadow-black dark:shadow-amber-200
-                     gap-2 p-2 px-4 py-3 lg:py-2 rounded-xl cursor-pointer hover:scale-105 bg-gradient-to-b
-                   from-amber-100 to-amber-200 dark:from-sky-800 dark:via-sky-950 dark:to-stone-800"
+                    className="Google-btn flex shadow-xl/30 shadow-black dark:shadow-amber-200
+                     gap-2 px-4 py-3 lg:py-2 rounded-xl cursor-pointer hover:scale-105 bg-gradient-to-b
+                   from-amber-100 to-amber-200 dark:from-sky-950 dark:via-sky-950 dark:to-stone-800"
                     type="button"
                   >
                     <FcGoogle className="size-6" />
