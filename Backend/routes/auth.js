@@ -33,7 +33,7 @@ router.post("/registerUser", async (req, res) => {
           username,
           email,
         },
-        process.env.JWT_SECRET_REGISTRATION_KEY,
+        process.env.JWT_AUTH_KEY,
         { expiresIn: "1h" }
       );
 
@@ -66,7 +66,7 @@ router.get("/getUser", (req, res) => {
   const token = req.cookies.token;
   if (!token) return res.status(401).json({ message: "Unauthorized" });
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET_REGISTRATION_KEY);
+    const decoded = jwt.verify(token, process.env.JWT_AUTH_KEY);
     return res.status(200).json({ user: decoded });
   } catch (err) {
     return res.status(403).json({ message: "Invalid token" });
@@ -77,12 +77,47 @@ router.post("/loginUser", async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    const result = await pool.query(`
-            DELETE FROM users WHERE username='Test1'`);
-    console.log("Col Deleted");
-    res.send(result.rows);
+    const result = await pool.query(
+      `SELECT * FROM users WHERE users.username=$1`,
+      [username]
+    );
+
+    if (result.rows.length == 0) {
+      res.status(400).json({ message: "User does not exist" });
+    }
+
+    const user = result.rows[0];
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid Credentials" });
+    }
+
+    const token = jwt.sign(
+      { id: user.id, username: user.username },
+      process.env.JWT_AUTH_KEY,
+      { expiresIn: "1h" }
+    );
+
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: false,
+        maxAge: 3600000,
+      })
+      .status(200)
+      .json({
+        message: `Welcome back ${user.username}`,
+        token,
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+        },
+      });
   } catch (err) {
-    console.log("db error: ", err.message);
+    res.status(500).json({ message: "Server error" });
+    console.log("Db error: ", err.message);
   }
 });
 

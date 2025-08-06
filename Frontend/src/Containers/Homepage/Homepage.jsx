@@ -9,7 +9,10 @@ import { motion, useInView, AnimatePresence, easeInOut } from "motion/react";
 import axios from "axios";
 
 const Homepage = () => {
+  let navigate = useNavigate();
+  const location = useLocation();
   const [user, setUser] = useState(null);
+  const toastShown = useRef(false);
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
@@ -19,13 +22,47 @@ const Homepage = () => {
         const res = await axios.get("http://localhost:8000/api/getUser", {
           withCredentials: true,
         });
+
         setUser(res.data.user);
-      } catch (err) {}
+
+        if (location.state?.message && !toastShown.current) {
+          toast.success(location.state.message, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: document.documentElement.classList.contains("dark")
+              ? "light"
+              : "dark",
+            transition: Bounce,
+          });
+          toastShown.current = true;
+          window.history.replaceState({}, document.title);
+        }
+      } catch (err) {
+        if (!toastShown.current) {
+          toast.error(err.response.data.message, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: document.documentElement.classList.contains("dark")
+              ? "light"
+              : "dark",
+            transition: Bounce,
+          });
+        }
+        toastShown.current = true;
+      }
     };
     fetchUser();
   }, []);
-
-  let navigate = useNavigate();
 
   const [PlayModal, setPlayModal] = useState(false);
   const [ProfileModal, setProfileModal] = useState(false);

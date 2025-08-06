@@ -2,13 +2,19 @@ import http from "http";
 import express from "express";
 import cors from "cors";
 import authHandler from "../Backend/routes/auth.js";
+
 import cookieParser from "cookie-parser";
 
 const app = express();
 const PORT = 8000;
 const myServer = http.createServer(app);
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 

@@ -20,8 +20,8 @@ const DarkModeBtn = () => {
         whileTap={{ scale: 0.9 }}
         className="p-4 rounded-full border-2 border-pink-500 dark:border-cyan-300 
                      bg-pink-400 dark:bg-cyan-400 text-white dark:text-gray-900  
-                     shadow-[0_0_15px_#ec4899] dark:shadow-[0_0_15px_#22d3ee]
-                     hover:scale-105 font-bold tracking-wide cursor-pointer"
+                     shadow-[0_0_15px_#ec4899] dark:shadow-[0_0_15px_#22d3ee] transition-all duration-300
+                     hover:scale-105 font-bold tracking-wide cursor-pointer ease-in-out"
         onClick={toggleDarkMode}
       >
         {theme ? <FiSun className="size-5" /> : <IoMoon className="size-5" />}

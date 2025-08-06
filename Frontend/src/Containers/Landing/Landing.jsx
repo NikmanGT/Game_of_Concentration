@@ -27,80 +27,48 @@ const Landing = () => {
     password: "",
   });
 
-  const RegisterUser = async () => {
-    const usernameRegex = /^[a-zA-Z0-9_.]{3,20}$/;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{8,}$/;
+  const usernameRegex = /^[a-zA-Z0-9_.]{3,20}$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+  const passwordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{8,}$/;
 
+  const ToastShow = (msg) => {
+    toast.error(msg, {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: document.documentElement.classList.contains("dark")
+        ? "light"
+        : "dark",
+      transition: Bounce,
+    });
+  };
+
+  const RegisterUser = async () => {
     if (
       userData.username == "" ||
       userData.email == "" ||
       userData.password == ""
     ) {
-      toast.error("Please fill in all the fields!", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: document.documentElement.classList.contains("dark")
-          ? "light"
-          : "dark",
-        transition: Bounce,
-      });
+      ToastShow("Please fill in all the fields!");
       return;
     } else {
       if (!usernameRegex.test(userData.username)) {
-        toast.error("Invalid username", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: document.documentElement.classList.contains("dark")
-            ? "light"
-            : "dark",
-          transition: Bounce,
-        });
+        ToastShow("Invalid username");
         return;
       }
 
       if (!emailRegex.test(userData.email)) {
-        toast.error("Invalid email", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: document.documentElement.classList.contains("dark")
-            ? "light"
-            : "dark",
-          transition: Bounce,
-        });
+        ToastShow("Invalid email");
         return;
       }
 
       if (!passwordRegex.test(userData.password)) {
-        toast.error("Weak password. Include upper, lower, number, symbol.", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: document.documentElement.classList.contains("dark")
-            ? "light"
-            : "dark",
-          transition: Bounce,
-        });
+        ToastShow("Weak password. Include upper, lower, number, symbol.");
         return;
       }
     }
@@ -116,52 +84,65 @@ const Landing = () => {
           },
         }
       );
-      if (result.status == 201) {
-        navigate("/Homepage");
+
+      const verify = await axios.get("http://localhost:8000/api/getUser", {
+        withCredentials: true,
+      });
+
+      if (verify.status == 200) {
+        console.log(result.data.message);
+        navigate("/Homepage", {
+          state: {
+            message: "User Registered Successfuly ✅",
+          },
+        });
       }
     } catch (err) {
-      if (err.response?.status == 400) {
-        toast.error(err.response?.data.message, {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: document.documentElement.classList.contains("dark")
-            ? "light"
-            : "dark",
-          transition: Bounce,
-        });
+      if (err.response?.status == 400 || err.response?.status == 403) {
+        ToastShow(err.response?.data.message);
       } else {
-        toast.error("Registration failed. Please Try Again!", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: document.documentElement.classList.contains("dark")
-            ? "light"
-            : "dark",
-          transition: Bounce,
-        });
+        ToastShow("Registration failed. Please Try Again!");
       }
     }
   };
 
   const LoginUser = async () => {
+    if (userData.username == "" || userData.password == "") {
+      ToastShow("Please fill in all the fields!");
+      return;
+    } else {
+      if (!usernameRegex.test(userData.username)) {
+        ToastShow("Invalid username");
+        return;
+      }
+
+      if (!passwordRegex.test(userData.password)) {
+        ToastShow("Weak password. Include upper, lower, number, symbol.");
+        return;
+      }
+    }
     try {
-      const response = await axios.post("http://localhost:8000/api/loginUser", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      console.log(response);
+      const response = await axios.post(
+        "http://localhost:8000/api/loginUser",
+        userData,
+        {
+          withCredentials: true,
+        }
+      );
+      if (response.status == 200) {
+        console.log(response.data.user);
+        navigate("/Homepage", {
+          state: {
+            message: `Welcome back ${response.data.user.username}`,
+          },
+        });
+      }
     } catch (err) {
-      console.log("Error: ", err.message);
+      if (err.response?.status == 400 || err.response?.status == 403) {
+        ToastShow(err.response?.data.message);
+      } else {
+        ToastShow("Login failed. Please Try Again!");
+      }
     }
   };
 
@@ -351,8 +332,9 @@ const Landing = () => {
                   </p>
                   <button
                     className="Google-btn flex shadow-xl/30 shadow-black dark:shadow-amber-200
-                     gap-2 px-4 py-3 lg:py-2 rounded-xl cursor-pointer hover:scale-105 bg-gradient-to-b
-                   from-amber-100 to-amber-200 dark:from-sky-950 dark:via-sky-950 dark:to-stone-800"
+                     gap-2 px-4 py-3 lg:py-2 rounded-xl cursor-pointer hover:scale-105 transition-all duration-300 
+                     ease-in-out bg-gradient-to-b from-amber-100 to-amber-200 dark:from-sky-950
+                   dark:via-sky-950 dark:to-stone-800"
                     type="button"
                   >
                     <FcGoogle className="size-6" />
