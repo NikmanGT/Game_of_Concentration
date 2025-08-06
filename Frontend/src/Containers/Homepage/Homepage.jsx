@@ -38,8 +38,8 @@ const Homepage = () => {
             draggable: true,
             progress: undefined,
             theme: document.documentElement.classList.contains("dark")
-              ? "light"
-              : "dark",
+              ? "dark"
+              : "light",
             transition: Bounce,
           });
           toastShown.current = true;
@@ -56,8 +56,8 @@ const Homepage = () => {
             draggable: true,
             progress: undefined,
             theme: document.documentElement.classList.contains("dark")
-              ? "light"
-              : "dark",
+              ? "dark"
+              : "light",
             transition: Bounce,
           });
         }

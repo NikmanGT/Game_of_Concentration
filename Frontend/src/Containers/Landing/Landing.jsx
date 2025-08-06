@@ -42,8 +42,8 @@ const Landing = () => {
       draggable: true,
       progress: undefined,
       theme: document.documentElement.classList.contains("dark")
-        ? "light"
-        : "dark",
+        ? "dark"
+        : "light",
       transition: Bounce,
     });
   };

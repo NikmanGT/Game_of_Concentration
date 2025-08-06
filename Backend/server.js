@@ -8,7 +8,10 @@ import cookieParser from "cookie-parser";
 const app = express();
 const myServer = http.createServer(app);
 
-const allowedOrigins = ["https://game-of-concentration-nikunj.vercel.app"];
+const allowedOrigins = [
+  "https://game-of-concentration-nikunj.vercel.app",
+  "http://localhost:5173",
+];
 
 app.use(
   cors({
