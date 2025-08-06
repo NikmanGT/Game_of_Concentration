@@ -9,9 +9,14 @@ const app = express();
 const PORT = 8000;
 const myServer = http.createServer(app);
 
+const allowedOrigins = {
+  development: "http://localhost:5173",
+  production: "https://game-of-concentration-nikunj.vercel.app",
+};
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: allowedOrigins[process.env.NODE_ENV],
     credentials: true,
   })
 );
