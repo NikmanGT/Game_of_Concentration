@@ -6,7 +6,6 @@ import authHandler from "../Backend/routes/auth.js";
 import cookieParser from "cookie-parser";
 
 const app = express();
-const PORT = 8000;
 const myServer = http.createServer(app);
 
 const allowedOrigins = {
@@ -31,6 +30,6 @@ app.get("/", (req, res) => {
   res.send("Server is running on NodeJS & PostgreSQL");
 });
 
-myServer.listen(PORT, () => {
-  console.log(`Server started at PORT: ${PORT}`);
+myServer.listen(process.env.PORT || 8000, () => {
+  console.log(`Server started at PORT: ${process.env.PORT || 8000}`);
 });
