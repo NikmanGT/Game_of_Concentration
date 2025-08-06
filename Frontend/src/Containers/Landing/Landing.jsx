@@ -75,7 +75,7 @@ const Landing = () => {
 
     try {
       const result = await axios.post(
-        "http://localhost:8000/api/registerUser",
+        "https://game-of-concentration.onrender.com/api/registerUser",
         userData,
         {
           withCredentials: true,
@@ -85,9 +85,12 @@ const Landing = () => {
         }
       );
 
-      const verify = await axios.get("http://localhost:8000/api/getUser", {
-        withCredentials: true,
-      });
+      const verify = await axios.get(
+        "https://game-of-concentration.onrender.com/api/getUser",
+        {
+          withCredentials: true,
+        }
+      );
 
       if (verify.status == 200) {
         console.log(result.data.message);
@@ -123,7 +126,7 @@ const Landing = () => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/loginUser",
+        "https://game-of-concentration.onrender.com/api/loginUser",
         userData,
         {
           withCredentials: true,

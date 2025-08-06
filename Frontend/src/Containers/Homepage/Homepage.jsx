@@ -19,9 +19,12 @@ const Homepage = () => {
     document.documentElement.classList.toggle("dark", storedTheme === "dark");
     const fetchUser = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/api/getUser", {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          "https://game-of-concentration.onrender.com/api/getUser",
+          {
+            withCredentials: true,
+          }
+        );
 
         setUser(res.data.user);
 

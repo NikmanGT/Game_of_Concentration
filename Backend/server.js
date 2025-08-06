@@ -8,14 +8,17 @@ import cookieParser from "cookie-parser";
 const app = express();
 const myServer = http.createServer(app);
 
-const allowedOrigins = {
-  development: "http://localhost:5173",
-  production: "https://game-of-concentration-nikunj.vercel.app",
-};
+const allowedOrigins = ["https://game-of-concentration-nikunj.vercel.app"];
 
 app.use(
   cors({
-    origin: allowedOrigins[process.env.NODE_ENV],
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
@@ -27,7 +30,9 @@ app.use(cookieParser());
 app.use("/api", authHandler);
 
 app.get("/", (req, res) => {
-  res.send("Server is running on NodeJS & PostgreSQL");
+  res.send(
+    "Server is running on NodeJS & PostgreSQL. Backend deployed on Render and Database on Neon"
+  );
 });
 
 myServer.listen(process.env.PORT || 8000, () => {
