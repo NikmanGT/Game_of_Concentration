@@ -15,6 +15,8 @@ const Landing = () => {
     document.documentElement.classList.toggle("dark", storedTheme === "dark");
   }, []);
 
+  const API_BASE = import.meta.env.VITE_BACKEND_URL;
+
   const navigate = useNavigate();
 
   const [isLogin, setIsLogin] = useState(false);
@@ -75,7 +77,7 @@ const Landing = () => {
 
     try {
       const result = await axios.post(
-        "https://game-of-concentration.onrender.com/api/registerUser",
+        `${API_BASE}/api/registerUser`,
         userData,
         {
           withCredentials: true,
@@ -85,15 +87,12 @@ const Landing = () => {
         }
       );
 
-      const verify = await axios.get(
-        "https://game-of-concentration.onrender.com/api/getUser",
-        {
-          withCredentials: true,
-        }
-      );
+      const verify = await axios.get(`${API_BASE}/api/user`, {
+        withCredentials: true,
+      });
 
       if (verify.status == 200) {
-        console.log(result.data.message);
+        console.log("The user signed in as: ", result.data.message);
         navigate("/Homepage", {
           state: {
             message: "User Registered Successfuly ✅",
@@ -125,15 +124,10 @@ const Landing = () => {
       }
     }
     try {
-      const response = await axios.post(
-        "https://game-of-concentration.onrender.com/api/loginUser",
-        userData,
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axios.post(`${API_BASE}/api/loginUser`, userData, {
+        withCredentials: true,
+      });
       if (response.status == 200) {
-        console.log(response.data.user);
         navigate("/Homepage", {
           state: {
             message: `Welcome back ${response.data.user.username}`,

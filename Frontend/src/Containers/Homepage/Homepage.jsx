@@ -9,24 +9,43 @@ import { motion, useInView, AnimatePresence, easeInOut } from "motion/react";
 import axios from "axios";
 
 const Homepage = () => {
+  const API_BASE = import.meta.env.VITE_BACKEND_URL;
+
   let navigate = useNavigate();
   const location = useLocation();
   const [user, setUser] = useState(null);
   const toastShown = useRef(false);
+
+  const ToastShow = (msg) => {
+    toast.error(msg, {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: document.documentElement.classList.contains("dark")
+        ? "dark"
+        : "light",
+      transition: Bounce,
+    });
+  };
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
     document.documentElement.classList.toggle("dark", storedTheme === "dark");
     const fetchUser = async () => {
       try {
-        const res = await axios.get(
-          "https://game-of-concentration.onrender.com/api/getUser",
-          {
-            withCredentials: true,
-          }
-        );
+        const res = await axios.get(`${API_BASE}/api/user`, {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
         setUser(res.data.user);
+        console.log("The user fetched is: ", res);
 
         if (location.state?.message && !toastShown.current) {
           toast.success(location.state.message, {
@@ -47,19 +66,7 @@ const Homepage = () => {
         }
       } catch (err) {
         if (!toastShown.current) {
-          toast.error(err.response.data.message, {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: document.documentElement.classList.contains("dark")
-              ? "dark"
-              : "light",
-            transition: Bounce,
-          });
+          ToastShow(err.response.data.message);
         }
         toastShown.current = true;
       }
@@ -150,8 +157,8 @@ const Homepage = () => {
 
   return (
     <div
-      className="absolute inset-0 -z-10 h-full w-full [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)] 
-    dark:[background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_70%)] overflow-hidden"
+      className="absolute inset-0 -z-10 bg-gradient-to-b from-[#f1eaea] via-[#f4f2e4] to-[#d6d1ae] 
+    dark:[background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_70%)] overflow-hidden  h-full w-full"
     >
       <ToastContainer
         position="top-right"

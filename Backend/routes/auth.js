@@ -63,7 +63,7 @@ router.post("/registerUser", async (req, res) => {
   }
 });
 
-router.get("/getUser", (req, res) => {
+router.get("/user", (req, res) => {
   const token = req.cookies.token;
   if (!token) return res.status(401).json({ message: "Unauthorized" });
   try {
@@ -95,7 +95,7 @@ router.post("/loginUser", async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user.id, username: user.username },
+      { id: user.id, username: user.username, email: user.email },
       process.env.JWT_AUTH_KEY,
       { expiresIn: "1h" }
     );
