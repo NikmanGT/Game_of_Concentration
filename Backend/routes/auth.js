@@ -5,6 +5,10 @@ import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
+router.get("/ping", async (req, res) => {
+  res.status(200).send("Pong");
+});
+
 router.post("/registerUser", async (req, res) => {
   const { username, email, password } = req.body;
 

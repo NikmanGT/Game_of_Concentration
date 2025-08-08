@@ -13,8 +13,8 @@ const Homepage = () => {
 
   let navigate = useNavigate();
   const location = useLocation();
+
   const [user, setUser] = useState(null);
-  const toastShown = useRef(false);
 
   const ToastShow = (msg) => {
     toast.error(msg, {
@@ -43,32 +43,24 @@ const Homepage = () => {
             "Content-Type": "application/json",
           },
         });
-
         setUser(res.data.user);
-        console.log("The user fetched is: ", res);
 
-        if (location.state?.message && !toastShown.current) {
-          toast.success(location.state.message, {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: document.documentElement.classList.contains("dark")
-              ? "dark"
-              : "light",
-            transition: Bounce,
-          });
-          toastShown.current = true;
-          window.history.replaceState({}, document.title);
-        }
+        toast.success(location.state.message, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: document.documentElement.classList.contains("dark")
+            ? "dark"
+            : "light",
+          transition: Bounce,
+        });
+        window.history.replaceState({}, document.title);
       } catch (err) {
-        if (!toastShown.current) {
-          ToastShow(err.response.data.message);
-        }
-        toastShown.current = true;
+        ToastShow(err.response.data.message);
       }
     };
     fetchUser();
@@ -92,6 +84,7 @@ const Homepage = () => {
     setSelected(option.label);
     localStorage.setItem("difficulty", JSON.stringify(difficulty.current));
   };
+
   useEffect(() => {
     if (difficulty.current != null) {
       setMarioReady(true);
@@ -123,25 +116,10 @@ const Homepage = () => {
   }, []);
 
   const GameStartbtn = () => {
-    const name = username.current.value?.trim();
-    if (!name) {
-      toast.error("Can't play without a nickname!", {
-        position: "top-right",
-        autoClose: 4000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        transition: Bounce,
-      });
-      return;
-    }
     if (!difficulty.current) {
       toast.error("Atleast set the difficulty first", {
         position: "top-right",
-        autoClose: 4000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: false,
         pauseOnHover: true,
@@ -152,6 +130,7 @@ const Homepage = () => {
       });
       return;
     }
+
     navigate("/matchRoom");
   };
 
@@ -300,35 +279,31 @@ const Homepage = () => {
                 </div>
               </div>
 
-              <div className="mt-6 Username-container flex gap-4">
+              <div className="mt-6 Username-container flex gap-4 px-2 justify-center">
                 <p
                   className="text-lg lg:text-xl font-extrabold tracking-wide bg-clip-text text-transparent 
-               bg-gradient-to-r  from-indigo-500 via-blue-400 to-teal-400 
+               bg-gradient-to-r  from-indigo-700 via-blue-950 to-teal-900 
                dark:from-cyan-300 dark:via-cyan-500 dark:to-cyan-300
+               
                drop-shadow-[0_0_10px_rgb(70,70,255)] dark:drop-shadow-[0_0_15px_#00ffff]"
                 >
                   NICKNAME:
                 </p>
-                <input
-                  type="text"
-                  ref={username}
-                  onChange={(e) => {
-                    setNameInput(e.target.value);
-                  }}
-                  placeholder="Enter your name..."
-                  className="w-full border-b-2 border-amber-500 focus:outline-none dark:text-white
-                 dark:placeholder-gray-400 dark:focus:ring-cyan-400  transition-all duration-300"
-                ></input>
+
+                <p
+                  className="text-lg lg:text-xl font-bold tracking-wide drop-shadow-[0_0_10px_rgb(70,70,255)] 
+                 dark:drop-shadow-[0_0_10px_#00ffff]"
+                >
+                  {user.username}
+                </p>
               </div>
 
               <div className="Difficulty-container flex flex-col items-center">
                 <p
                   className="p-3 text-xl font-extrabold tracking-wider 
-               bg-clip-text text-transparent 
-               bg-gradient-to-r from-indigo-500 via-blue-400 to-teal-400 
+               bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 via-blue-950 to-teal-900
                dark:from-cyan-300 dark:via-teal-400 dark:to-cyan-500 
-               drop-shadow-[0_0_10px_rgb(70,70,255)] 
-               dark:drop-shadow-[0_0_15px_#00ffff]"
+               drop-shadow-[0_0_10px_rgb(70,70,255)] dark:drop-shadow-[0_0_15px_#00ffff]"
                 >
                   Choose your Difficulty
                 </p>
