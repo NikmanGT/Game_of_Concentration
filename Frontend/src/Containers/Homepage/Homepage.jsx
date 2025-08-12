@@ -131,7 +131,8 @@ const Homepage = () => {
       return;
     }
 
-    navigate("/matchRoom");
+    try {
+    } catch {}
   };
 
   return (
@@ -248,7 +249,7 @@ const Homepage = () => {
               </button>
             </div>
 
-            <div className="flex flex-col h-full lg:gap-9 gap-4">
+            <div className="flex flex-col h-full lg:gap-7 gap-4">
               <div className="text-container flex flex-col lg:gap-5 gap-3">
                 <p
                   className="text-4xl lg:text-6xl md:text-5xl -z-8 font-extrabold lg:font-bold
@@ -270,8 +271,8 @@ const Homepage = () => {
                       key={index}
                       className="lg:text-xl text-base font-medium px-2 leading-relaxed text-black dark:text-white 
                       bg-clip-text bg-gradient-to-r from-slate-800 via-purple-800 to-slate-900 
-                    dark:from-cyan-300 dark:via-cyan-500 dark:to-cyan-300
-                       drop-shadow-[0_0_20px_#cb3d17] dark:drop-shadow-[10px_5px_12px_#00ffff] transition-all duration-500"
+                    dark:from-cyan-300 dark:via-cyan-500 dark:to-cyan-300 duration-500
+                       drop-shadow-[0_0_20px_#cb3d17] dark:drop-shadow-[10px_5px_12px_#00ffff] transition-all"
                     >
                       {rule}
                     </p>
@@ -279,7 +280,7 @@ const Homepage = () => {
                 </div>
               </div>
 
-              <div className="mt-6 Username-container flex gap-4 px-2 justify-center">
+              <div className="Username-container flex gap-4 px-2 justify-center">
                 <p
                   className="text-lg lg:text-xl font-extrabold tracking-wide bg-clip-text text-transparent 
                bg-gradient-to-r  from-indigo-700 via-blue-950 to-teal-900 
@@ -291,16 +292,16 @@ const Homepage = () => {
                 </p>
 
                 <p
-                  className="text-lg lg:text-xl font-bold tracking-wide drop-shadow-[0_0_10px_rgb(70,70,255)] 
-                 dark:drop-shadow-[0_0_10px_#00ffff]"
+                  className="text-lg lg:text-xl font-extrabold tracking-wide drop-shadow-[0_0_10px_rgb(70,70,255)] 
+                 dark:drop-shadow-[0_0_10px_#00ffff] dark:text-blue-100 text-amber-950"
                 >
                   {user.username}
                 </p>
               </div>
 
-              <div className="Difficulty-container flex flex-col items-center">
+              <div className="Difficulty-container flex flex-col items-center gap-4">
                 <p
-                  className="p-3 text-xl font-extrabold tracking-wider 
+                  className=" text-xl font-extrabold tracking-wider 
                bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 via-blue-950 to-teal-900
                dark:from-cyan-300 dark:via-teal-400 dark:to-cyan-500 
                drop-shadow-[0_0_10px_rgb(70,70,255)] dark:drop-shadow-[0_0_15px_#00ffff]"

@@ -76,16 +76,12 @@ const Landing = () => {
     }
 
     try {
-      const result = await axios.post(
-        `${API_BASE}/api/registerUser`,
-        userData,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const result = await axios.post(`${API_BASE}/api/register`, userData, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       const verify = await axios.get(`${API_BASE}/api/user`, {
         withCredentials: true,
@@ -124,7 +120,7 @@ const Landing = () => {
       }
     }
     try {
-      const response = await axios.post(`${API_BASE}/api/loginUser`, userData, {
+      const response = await axios.post(`${API_BASE}/api/login`, userData, {
         withCredentials: true,
       });
       if (response.status == 200) {

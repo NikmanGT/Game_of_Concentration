@@ -2,6 +2,7 @@ import http from "http";
 import express from "express";
 import cors from "cors";
 import authHandler from "../Backend/routes/auth.js";
+import matchHistoy from "../Backend/routes/History.js";
 
 import cookieParser from "cookie-parser";
 
@@ -32,10 +33,10 @@ app.use(cookieParser());
 
 app.use("/api", authHandler);
 
+app.use("/api/matches", matchHistoy);
+
 app.get("/", (req, res) => {
-  res.send(
-    "Server is running on NodeJS & PostgreSQL. Backend deployed on Render and Database on Neon"
-  );
+  res.send("Server is running on NodeJS & PostgreSQL.");
 });
 
 myServer.listen(process.env.PORT || 8000, () => {

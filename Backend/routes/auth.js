@@ -9,7 +9,7 @@ router.get("/ping", async (req, res) => {
   res.status(200).send("Pong");
 });
 
-router.post("/registerUser", async (req, res) => {
+router.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
 
   const saltRounds = 10;
@@ -78,7 +78,7 @@ router.get("/user", (req, res) => {
   }
 });
 
-router.post("/loginUser", async (req, res) => {
+router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
   try {
