@@ -7,3 +7,5 @@ router.post("/", async (req, res) => {
   try {
   } catch {}
 });
+
+export default router;
