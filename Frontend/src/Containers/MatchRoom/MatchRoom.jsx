@@ -300,7 +300,7 @@ const MatchRoom = () => {
                     </button>
 
                     <button
-                      onClick={() => navigate("/")}
+                      onClick={() => navigate("/Homepage")}
                       className="rounded-xl px-6 py-3 font-semibold text-black dark:text-slate-900
                       bg-gradient-to-br from-[#474ccf] via-[#61d6c1] to-[#c5eb6e]
                        border border-amber-300 hover:ring-2 hover:ring-amber-500 cursor-pointer
