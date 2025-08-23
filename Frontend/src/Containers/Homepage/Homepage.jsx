@@ -131,8 +131,7 @@ const Homepage = () => {
       return;
     }
 
-    try {
-    } catch {}
+    navigate("/matchRoom");
   };
 
   return (
